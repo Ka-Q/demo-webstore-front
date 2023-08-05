@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import './NavBar.css'
-import { Navbar, Container, Nav, NavDropdown, Form, Button, Dropdown, DropdownButton } from 'react-bootstrap';
+import { Navbar, Container, Nav, NavDropdown, Form, Button, Dropdown, DropdownButton, NavItem } from 'react-bootstrap';
 
+const API_PATH = 'http://localhost:5000';
 
 function App() {
   return (
@@ -13,6 +14,18 @@ function App() {
 }
 
 const NavBar = () => {
+
+  const [maincategories, setMaincategories] = useState([]);
+
+  useEffect(() => {
+    const fetchMaincategories = async () => {
+      const f = await fetch(`${API_PATH}/api/maincategory`);
+      const data = await f.json();
+      setMaincategories(data.data);
+    }
+    fetchMaincategories();
+  }, [])
+
   return (
     <Navbar className="bg-body-tertiary" data-bs-theme="dark">
       <Container fluid>
@@ -25,21 +38,11 @@ const NavBar = () => {
             navbarScroll
           >
             <NavDropdown title="Categories" id="basic-nav-dropdown">
-              <CustomNavDropdown title="Main Category 1" id="basic-nav-dropdown" className="dropdown-submenu" drop='end'>
-                <NavDropdown.Item href="#action/3.2.1">Sub-Category 1.1</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2.2">Sub-Category 1.2</NavDropdown.Item>
-              </CustomNavDropdown>
-              <CustomNavDropdown title="Main Category 2" id="basic-nav-dropdown" className="dropdown-submenu" drop='end'>
-                <NavDropdown.Item href="#action/3.2.1">Sub-Category 2.1</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2.2">Sub-Category 2.2</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2.2">Sub-Category 2.3</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2.2">Sub-Category 2.4</NavDropdown.Item>
-              </CustomNavDropdown>
-              <NavDropdown.Divider />
-              <CustomNavDropdown title="Main Category 3" id="basic-nav-dropdown" className="dropdown-submenu" drop='end'>
-                <NavDropdown.Item href="#action/3.2.1">Sub-Category 3.1</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2.2">Sub-Category 3.2</NavDropdown.Item>
-              </CustomNavDropdown>
+              <NavDropdown.Item href='/categories'>All categories</NavDropdown.Item>
+              <NavDropdown.Divider></NavDropdown.Divider>
+              {maincategories.map((n, index) => {
+                return (<CategoryComponent main={n} key={index}/>);
+              })}
             </NavDropdown>
           </Nav>
           <Form className="d-flex mx-auto" style={{width: "100%", maxWidth: "60%", position: "relative"}}>
@@ -53,12 +56,40 @@ const NavBar = () => {
             <button style={{position: "absolute", height: "100%", right: ".5rem", background: "transparent", border: "0px"}}>🔍</button>
           </Form>
           <Nav>
-            <Nav.Link href="#profile">🤷‍♂️</Nav.Link>
-            <Nav.Link href="#cart">🛒</Nav.Link>
+            <Nav.Link href="#profile" className='large-screen'>🤷‍♂️ Profile</Nav.Link>
+            <Nav.Link href="#cart" className='large-screen'>🛒 Cart</Nav.Link>
+            <Nav.Link href="#profile" className='small-screen'>🤷‍♂️</Nav.Link>
+            <Nav.Link href="#cart" className='small-screen'>🛒</Nav.Link>
+            <Nav.Link href="#menu">◨</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
+  )
+}
+
+const CategoryComponent = (props) => {
+  const mainCategory = props.main;
+  const [subCategories, setSubCategories] = useState([]);
+  useEffect(() => {
+    const fetchSubCategories = async () => {
+      const f = await fetch(`${API_PATH}/api/maincategory_category?maincategory_id=${mainCategory.maincategory_id}`);
+      const data = await f.json();
+      if (data.data) {
+        setSubCategories(data.data);
+      } else {
+        setSubCategories([{category_id: 'error'}]);
+      }
+    }
+    fetchSubCategories();
+  }, [])
+
+  return (
+      <CustomNavDropdown title={mainCategory.maincategory_name} href={`/categories/${mainCategory.maincategory_name}`} id="basic-nav-dropdown" className="dropdown-submenu" drop='end'>
+        {subCategories.map((n, index) => {
+          return (<NavDropdown.Item href={`/categories/${mainCategory.maincategory_name}/${n.category_name}`} key={index}>{n.category_name}</NavDropdown.Item>);
+        })}
+      </CustomNavDropdown>
   )
 }
 
@@ -67,12 +98,17 @@ const CustomNavDropdown = (props) => {
   const handleShow = () => setShow(true);
   const handleHide = () => setShow(false);
 
+  const setLocation = () => {
+    window.location.href = props.href
+  } 
+
   return (
     <NavDropdown
       {...props}
       show={show}
       onMouseEnter={handleShow}
       onMouseLeave={handleHide}
+      onClick={setLocation}
     >
       {props.children}
     </NavDropdown>
