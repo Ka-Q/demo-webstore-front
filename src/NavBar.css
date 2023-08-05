@@ -1,23 +1,22 @@
 .dropdown-submenu {
-    position: relative;
-  }
-  
-  .dropdown-submenu .dropdown-menu {
-    top: 0;
-    left: 95%;
-    margin-top: -6px;
-    margin-left: -10px;
-  }
-  
-  .dropdown-submenu:hover .dropdown-menu {
-    display: block;
-  }
-
-  .dropend .dropdown-menu[data-bs-popper] {
-    top: 0;
-    right: auto;
-    left: 98% !important;
-    margin-top: 0;
-    margin-left: var(--bs-dropdown-spacer);
+  position: relative;
 }
-  
+
+.dropdown-submenu .dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -10px;
+}
+
+.dropdown-submenu:hover .dropdown-menu {
+  display: block;
+}
+
+.dropend .dropdown-menu[data-bs-popper] {
+  top: 0;
+  right: auto;
+  left: 98% !important;
+  margin-top: 0;
+  margin-left: var(--bs-dropdown-spacer);
+}

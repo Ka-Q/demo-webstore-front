@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState } from 'react';
 import './App.css';
 import './NavBar.css'
 import { Navbar, Container, Nav, NavDropdown, Form, Button, Dropdown, DropdownButton } from 'react-bootstrap';
@@ -6,7 +6,9 @@ import { Navbar, Container, Nav, NavDropdown, Form, Button, Dropdown, DropdownBu
 
 function App() {
   return (
+    <>
     <NavBar/>
+    </>
   );
 }
 
@@ -23,21 +25,21 @@ const NavBar = () => {
             navbarScroll
           >
             <NavDropdown title="Categories" id="basic-nav-dropdown">
-            <NavDropdown title="Main Category 1" id="basic-nav-dropdown" className="dropdown-submenu" drop='end' onClick={(e) => {console.log("clicked on 1")}}>
-                <NavDropdown.Item href="#action/3.2.1" onClick={(e) => {console.log("clicked on 1.1")}}>Sub-Category 1.1</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2.2" onClick={(e) => {console.log("clicked on 1.2")}}>Sub-Category 1.2</NavDropdown.Item>
-            </NavDropdown>
-            <NavDropdown title="Main Category 2" id="basic-nav-dropdown" className="dropdown-submenu" drop='end'>
+              <CustomNavDropdown title="Main Category 1" id="basic-nav-dropdown" className="dropdown-submenu" drop='end'>
+                <NavDropdown.Item href="#action/3.2.1">Sub-Category 1.1</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.2.2">Sub-Category 1.2</NavDropdown.Item>
+              </CustomNavDropdown>
+              <CustomNavDropdown title="Main Category 2" id="basic-nav-dropdown" className="dropdown-submenu" drop='end'>
                 <NavDropdown.Item href="#action/3.2.1">Sub-Category 2.1</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2.2">Sub-Category 2.2</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2.2">Sub-Category 2.3</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2.2">Sub-Category 2.4</NavDropdown.Item>
-            </NavDropdown>
-            <NavDropdown.Divider />
-            <NavDropdown title="Main Category 3" id="basic-nav-dropdown" className="dropdown-submenu" drop='end'>
+              </CustomNavDropdown>
+              <NavDropdown.Divider />
+              <CustomNavDropdown title="Main Category 3" id="basic-nav-dropdown" className="dropdown-submenu" drop='end'>
                 <NavDropdown.Item href="#action/3.2.1">Sub-Category 3.1</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2.2">Sub-Category 3.2</NavDropdown.Item>
-            </NavDropdown>
+              </CustomNavDropdown>
             </NavDropdown>
           </Nav>
           <Form className="d-flex mx-auto" style={{width: "100%", maxWidth: "60%", position: "relative"}}>
@@ -59,5 +61,22 @@ const NavBar = () => {
     </Navbar>
   )
 }
+
+const CustomNavDropdown = (props) => {
+  const [show, setShow] = useState(false);
+  const handleShow = () => setShow(true);
+  const handleHide = () => setShow(false);
+
+  return (
+    <NavDropdown
+      {...props}
+      show={show}
+      onMouseEnter={handleShow}
+      onMouseLeave={handleHide}
+    >
+      {props.children}
+    </NavDropdown>
+  );
+};
 
 export default App;
