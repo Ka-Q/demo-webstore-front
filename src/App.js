@@ -33,26 +33,4 @@ function App() {
   );
 }
 
-const LoginComponent = () => {
-  return (
-    <DropdownButton title="Log In" variant='outline-success'>
-      <Dropdown.ItemText>
-          <Form className="mx-auto">
-          <Form.Control
-            type="text"
-            placeholder="email"
-            aria-label="Search"
-          />
-          <Form.Control
-            type="password"
-            placeholder="password"
-            aria-label="Search"
-          />
-          <Button>Log in</Button><Button>Register</Button>
-        </Form>
-      </Dropdown.ItemText>
-    </DropdownButton>
-  )
-}
-
 export default App;
