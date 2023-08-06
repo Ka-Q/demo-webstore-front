@@ -119,7 +119,7 @@ const SearchbarComponent = () => {
 
   useEffect(() => {
     const fetchProduct = async () => {
-      const f = await fetch(`${API_PATH}/api/product?product_name=%${query}%&limit=5&order=price`);
+      const f = await fetch(`${API_PATH}/api/product?product_name=%${query.trim()}%&limit=5&order=price`);
       if (f.status == 200) {
         const data = await f.json();
         setProducts(data.data);
@@ -137,7 +137,7 @@ const SearchbarComponent = () => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    setQuery("search")
+    window.location.href = `/product?product_name=%${query}%`;
   }
 
   const hideResults = () => {

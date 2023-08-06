@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import FrontPage from './components/FrontPage/FrontPage';
+import { Routes, Route, BrowserRouter as Router } from 'react-router-dom'
+import FrontPage from './components/pages/FrontPage/FrontPage';
+import ProductPage from './components/pages/ProductPage/ProductPage';
 import NavBar from './components/NavBar/NavBar';
-import { Button, DropdownButton, Dropdown, Form } from 'react-bootstrap';
+import NavBarPadding from './components/NavbarPadding/NavbarPadding';
+
 
 const API_PATH = 'http://localhost:5000';
 
@@ -26,10 +29,15 @@ function App() {
   }, []);
 
   return (
-    <>
-    <NavBar user={user}/>
-    <FrontPage user={user}/>
-    </>
+    <Router>
+      <NavBar user={user}/>
+      <NavBarPadding/>
+      <Routes>
+        <Route path="/" element={<FrontPage user={user}/>} />
+        <Route path="/product" element={<ProductPage user={user}/>} />
+      </Routes>
+
+    </Router>
   );
 }
 
