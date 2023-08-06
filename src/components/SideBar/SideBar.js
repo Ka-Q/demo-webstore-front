@@ -62,7 +62,7 @@ const SideBar = (props) => {
                         Categories
                     </a>
                     <a className="list-item hoverable">
-                        A third page
+                        Wishlist
                     </a>
                     <a className="list-item ad">
                         Advertisement/Banner
