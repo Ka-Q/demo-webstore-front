@@ -38,21 +38,22 @@
 
   #side-toggle {
     display: none;
-    position: absolute;
+    position: fixed;
     cursor: pointer;
     right: 21.5rem;
     top: 0.8rem;
     z-index: 2;
-    color: white;
+    color: rgb(100,100,100);
     user-select: none;
     scale: 2;
     background-color: rgb(10,10,10);
     margin: 0em -1em 0em 0em;
     padding: .1em .75em .1em .1em;
+    border-radius: .25em 0 0 .25em;
   }
   
   #side-toggle:hover {
-    color: rgb(100,100,100);
+    color: rgb(220,220,220);
   }
   
   #scroll-container {
