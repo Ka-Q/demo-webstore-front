@@ -1,0 +1,8 @@
+.front-page-root {
+    
+}
+.login-banner {
+    background: rgb(101,0,88);
+    background: linear-gradient(122deg, rgb(152, 7, 165) 0%, rgba(15,65,177,1) 46%, rgb(3, 37, 77) 100%);
+    border-radius: 1em;
+}
