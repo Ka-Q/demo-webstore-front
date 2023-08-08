@@ -7,6 +7,7 @@ import NavBar from './components/NavBar/NavBar';
 import NavBarPadding from './components/NavbarPadding/NavbarPadding';
 import RegisterPage from './components/pages/RegisterPage/RegisterPage';
 import LoadingComponent from './components/LoadingComponent/LoadingComponent';
+import WelcomePage from './components/pages/WelcomePage/WelcomePage';
 
 
 const API_PATH = 'http://localhost:5000';
@@ -46,6 +47,7 @@ function App() {
           <Route path="/" element={<FrontPage user={user}/>} />
           <Route path="/product" element={<ProductPage user={user}/>} />
           <Route path="/register" element={<RegisterPage user={user}/>} />
+          <Route path="/welcome" element={<WelcomePage user={user}/>} />
         </Routes>
       }
     </Router>
