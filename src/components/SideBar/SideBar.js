@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './SideBar.css'
 const API_PATH = 'http://localhost:5000';
 
@@ -49,33 +50,33 @@ const SideBar = (props) => {
             <div id='sidebar'>
                 <div id='scroll-container'>
                     <div className="list-start">
-                    <a className="list-item shopping-cart hoverable">
+                    <Link className="list-item shopping-cart hoverable">
                         <span id='list-icon'>🛒</span>
                         Shopping cart
                         <span id="item-count"><br/>(0 items)</span>
                         <span id="proceed-to-check-out">Proceed to Check-Out ➡</span>
-                    </a>
-                    <a className="list-item hoverable" href='/'>
+                    </Link>
+                    <Link className="list-item hoverable" to='/' onClick={hideSidebar}>
                         Front page
-                    </a>
-                    <a className="list-item hoverable" href='/categories'>
+                    </Link>
+                    <Link className="list-item hoverable" to='/categories' onClick={hideSidebar}>
                         Categories
-                    </a>
-                    <a className="list-item hoverable">
+                    </Link>
+                    <Link className="list-item hoverable" to='/wishlist' onClick={hideSidebar}>
                         Wishlist
-                    </a>
-                    <a className="list-item ad">
+                    </Link>
+                    <Link className="list-item ad" onClick={hideSidebar}>
                         Advertisement/Banner
-                    </a>
+                    </Link>
                     </div>
                     <div className='list-end'>
                     <hr className="divider"/>
-                    <a className="list-item hoverable">
+                    <Link className="list-item hoverable" onClick={hideSidebar}>
                         Account
-                    </a>
-                    <a className="list-item hoverable" onClick={handleLogOut}>
+                    </Link>
+                    <Link className="list-item hoverable" onClick={handleLogOut}>
                         Log out
-                    </a>
+                    </Link>
                     </div>
                 </div>
             </div>

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Form, Button, Row, Col} from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 const API_PATH = 'http://localhost:5000';
 
@@ -11,7 +12,7 @@ const RegisterPage = (props) => {
 
     return (
         <div style={{height: "100vh"}}>
-            <h1 style={{textAlign: 'center'}} className='my-4'>Welcome to our new cutomer!</h1>
+            <h1 style={{textAlign: 'center'}} className='my-4'>Welcome to our new customer!</h1>
             <div style={{textAlign: 'center', maxWidth: "40em", margin: "auto"}}>
                 <RegisterForm/>
             </div>
@@ -26,6 +27,8 @@ const RegisterForm = () => {
     const [confirmedPassword, setConfirmedPassword] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
+
+    const navigate = useNavigate();
 
     const [error, setError] = useState("");
 
@@ -66,7 +69,7 @@ const RegisterForm = () => {
                     },
                     body: JSON.stringify({ user_email: email, user_password: password })
                 });
-                window.location.href = '/welcome';
+                navigate('/welcome')
             } else {
                 setError('Something went wrong... This Email might already be in use.')
             }
