@@ -4,6 +4,8 @@ import { Navbar, Container, Nav, NavDropdown, Form, Button, DropdownButton, Drop
 import SideBar from '../SideBar/SideBar';
 import LoginComponent from '../Login/LogIn';
 import LogOutComponent from '../Logout/LogOut';
+import { LinkContainer } from 'react-router-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 const API_PATH = 'http://localhost:5000';
 
@@ -26,7 +28,7 @@ const NavBar = (props) => {
     <>
     <Navbar className="bg-body-tertiary" data-bs-theme="dark" style={{position:"fixed", width: "100%"}}>
       <Container fluid>
-        <Navbar.Brand href="/">DWS</Navbar.Brand>
+        <LinkContainer to='/'><Navbar.Brand >DWS</Navbar.Brand></LinkContainer>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav
@@ -35,7 +37,7 @@ const NavBar = (props) => {
             navbarScroll
           >
             <NavDropdown title="🔖 Categories" id="basic-nav-dropdown">
-              <NavDropdown.Item href='/categories'>All categories</NavDropdown.Item>
+              <LinkContainer to='/categories'><NavDropdown.Item>All categories</NavDropdown.Item></LinkContainer>
               <NavDropdown.Divider></NavDropdown.Divider>
               {maincategories.map((n, index) => {
                 return (<CategoryComponent main={n} key={n.maincategory_id}/>);
@@ -47,17 +49,17 @@ const NavBar = (props) => {
             {
             !props.user || !props.user.user_id? <>
               <LoginComponent className='large-screen-login'/> 
-              <Nav.Link disabled href="/profile" className='large-screen'>🤷‍♂️ Profile</Nav.Link>
-              <Nav.Link disabled href="/profile" className='small-screen'>🤷‍♂️</Nav.Link></>
+              <Nav.Link disabled className='large-screen'>🤷‍♂️ Profile</Nav.Link>
+              <Nav.Link disabled className='small-screen'>🤷‍♂️</Nav.Link></>
               : 
               <>
                 <LogOutComponent className='large-screen-login'/>
-                <Nav.Link href="/profile" className='large-screen'>🤷‍♂️ Profile</Nav.Link>
-                <Nav.Link href="/profile" className='small-screen'>🤷‍♂️</Nav.Link>
+                <LinkContainer to='/profile'><Nav.Link className='large-screen'>🤷‍♂️ Profile</Nav.Link></LinkContainer>
+                <LinkContainer to='/profile'><Nav.Link className='small-screen'>🤷‍♂️</Nav.Link></LinkContainer>
               </>
             }
-            <Nav.Link href="#cart" className='mx-2 large-screen'>🛒 Cart</Nav.Link>
-            <Nav.Link href="#cart" className='mx-2 small-screen'>🛒</Nav.Link>
+            <Nav.Link className='mx-2 large-screen'>🛒 Cart</Nav.Link>
+            <Nav.Link className='mx-2 small-screen'>🛒</Nav.Link>
             <Nav.Link id="sidebar-toggle" onClick={(e) => setToggle(e.target)}style={{position: 'relative', scale: '2', transform: 'translate(0%, -.1rem)'}}>≡</Nav.Link>
           </Nav>
         </Navbar.Collapse>
@@ -71,6 +73,7 @@ const NavBar = (props) => {
 const CategoryComponent = (props) => {
   const mainCategory = props.main;
   const [subCategories, setSubCategories] = useState([]);
+
   useEffect(() => {
     const fetchSubCategories = async () => {
       const f = await fetch(`${API_PATH}/api/maincategory_category?maincategory_id=${mainCategory.maincategory_id}`);
@@ -87,7 +90,9 @@ const CategoryComponent = (props) => {
   return (
       <CustomNavDropdown title={mainCategory.maincategory_name} href={`/categories/${mainCategory.maincategory_name}`} id="basic-nav-dropdown" className="dropdown-submenu" drop='end'>
         {subCategories.map((n, index) => {
-          return (<NavDropdown.Item href={`/categories/${mainCategory.maincategory_name}/${n.category_name}`} key={n.category_id}>{n.category_name}</NavDropdown.Item>);
+          return (<LinkContainer to={`/categories/${mainCategory.maincategory_name}/${n.category_name}`}>
+            <NavDropdown.Item key={n.category_id}>{n.category_name}</NavDropdown.Item>
+            </LinkContainer>);
         })}
       </CustomNavDropdown>
   )
@@ -98,20 +103,23 @@ const CustomNavDropdown = (props) => {
   const handleShow = () => setShow(true);
   const handleHide = () => setShow(false);
 
-  const setLocation = () => {
-    window.location.href = props.href
+  const navigate = useNavigate();
+
+  const setLocation = (e) => {
+    if (e.target.id == 'basic-nav-dropdown') navigate(props.href);
   } 
 
   return (
+    <LinkContainer to={props.href}>
     <NavDropdown
       {...props}
       show={show}
       onMouseEnter={handleShow}
       onMouseLeave={handleHide}
-      onClick={setLocation}
+      onClick={(e) => setLocation(e)}
     >
       {props.children}
-    </NavDropdown>
+    </NavDropdown></LinkContainer>
   );
 };
 
@@ -119,6 +127,8 @@ const SearchbarComponent = () => {
   const [query, setQuery] = useState("");
   const [products, setProducts] = useState([]);
   const [resultsVisible, setResultsVisible] = useState(false);
+  
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -140,7 +150,7 @@ const SearchbarComponent = () => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    window.location.href = `/product?product_name=%${query}%`;
+    navigate(`/product?product_name=%${query}%`);
   }
 
   const hideResults = () => {
