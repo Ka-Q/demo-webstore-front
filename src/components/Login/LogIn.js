@@ -6,7 +6,7 @@ const LoginComponent = (props) => {
     
     return (
         <div className={props.className}>
-            <DropdownButton title="Log In" variant='outline-success' align={'end'}>
+            <DropdownButton title="Log In" variant='outline-success' align={'end'} className='navbar-login'>
                 <Dropdown.ItemText style={{ minWidth: "15em" }}>
                     <LoginForm/>
                 </Dropdown.ItemText>
