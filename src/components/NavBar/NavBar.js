@@ -5,7 +5,7 @@ import SideBar from '../SideBar/SideBar';
 import LoginComponent from '../Login/LogIn';
 import LogOutComponent from '../Logout/LogOut';
 import { LinkContainer } from 'react-router-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const API_PATH = 'http://localhost:5000';
 
@@ -65,7 +65,7 @@ const NavBar = (props) => {
         </Navbar.Collapse>
       </Container>
     </Navbar>
-    <SideBar toggle={toggle}/>
+    <SideBar toggle={toggle} user={props.user}/>
     </>
   )
 }
@@ -110,7 +110,7 @@ const CustomNavDropdown = (props) => {
   } 
 
   return (
-    <LinkContainer to={props.href}>
+    <Link to={props.href}>
     <NavDropdown
       {...props}
       show={show}
@@ -119,7 +119,7 @@ const CustomNavDropdown = (props) => {
       onClick={(e) => setLocation(e)}
     >
       {props.children}
-    </NavDropdown></LinkContainer>
+    </NavDropdown></Link>
   );
 };
 
