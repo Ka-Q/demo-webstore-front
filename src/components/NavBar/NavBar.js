@@ -36,11 +36,18 @@ const NavBar = (props) => {
             style={{ maxHeight: '100px' }}
             navbarScroll
           >
-            <NavDropdown title="🔖 Categories" id="basic-nav-dropdown">
+            <NavDropdown title="🔖 Categories" id="basic-nav-dropdown" className='large-screen-category'>
               <LinkContainer to='/categories'><NavDropdown.Item>All categories</NavDropdown.Item></LinkContainer>
               <NavDropdown.Divider></NavDropdown.Divider>
               {maincategories.map((n, index) => {
-                return (<CategoryComponent main={n} key={n.maincategory_id}/>);
+                return (<CategoryComponent main={n} key={n.maincategory_id} drop='end'/>);
+              })}
+            </NavDropdown>
+            <NavDropdown title="🔖" id="basic-nav-dropdown" className='small-screen-category'>
+              <LinkContainer to='/categories'><NavDropdown.Item>All categories</NavDropdown.Item></LinkContainer>
+              <NavDropdown.Divider></NavDropdown.Divider>
+              {maincategories.map((n, index) => {
+                return (<CategoryComponent main={n} key={n.maincategory_id} drop='down'/>);
               })}
             </NavDropdown>
           </Nav>
@@ -88,7 +95,7 @@ const CategoryComponent = (props) => {
   }, [])
 
   return (
-      <CustomNavDropdown title={mainCategory.maincategory_name} href={`/categories/${mainCategory.maincategory_name}`} id="basic-nav-dropdown" className="dropdown-submenu" drop='end'>
+      <CustomNavDropdown title={mainCategory.maincategory_name} href={`/categories/${mainCategory.maincategory_name}`} id="basic-nav-dropdown" className="dropdown-submenu" drop={props.drop}>
         {subCategories.map((n, index) => {
           return (<LinkContainer to={`/categories/${mainCategory.maincategory_name}/${n.category_name}`}>
             <NavDropdown.Item key={n.category_id}>{n.category_name}</NavDropdown.Item>
