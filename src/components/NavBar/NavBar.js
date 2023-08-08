@@ -44,8 +44,11 @@ const NavBar = (props) => {
           </Nav>
           <SearchbarComponent/>
           <Nav>
-            {!props.user.user_id? 
+            {
+            !props.user || !props.user.user_id? <>
               <LoginComponent className='large-screen-login'/> 
+              <Nav.Link disabled href="/profile" className='large-screen'>🤷‍♂️ Profile</Nav.Link>
+              <Nav.Link disabled href="/profile" className='small-screen'>🤷‍♂️</Nav.Link></>
               : 
               <>
                 <LogOutComponent className='large-screen-login'/>

@@ -5,7 +5,6 @@ import FrontPageRegister from "./FrontPageRegister";
 
 const FrontPage = (props) => {
     const user = props.user;
-    console.log(user);
     return (
         <div className='front-page-root' style={{paddingBottom: "100%"}}>
                 {user.user_email? 
