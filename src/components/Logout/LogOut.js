@@ -17,7 +17,7 @@ const LogOutComponent = (props) => {
 
     return (
         <div className={props.className}>
-            <Button variant='outline-success' onClick={handleLogOut} className='text-nowrap my-auto'>Log Out</Button>
+            <Button variant='outline-success' onClick={handleLogOut} className='text-nowrap' style={{ width: "5.5em" }}>Log Out</Button>
         </div>
     )
 }

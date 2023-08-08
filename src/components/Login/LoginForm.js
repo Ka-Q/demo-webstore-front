@@ -1,5 +1,7 @@
+import './Login.css'
 import { useState } from 'react';
 import { Form, Button} from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 const API_PATH = 'http://localhost:5000';
 
@@ -40,10 +42,9 @@ const LoginForm = () => {
                 placeholder="password"
                 aria-label="Search"
                 onChange={(e) => setPassword(e.target.value)}
-                className='my-1'
             />
-            <Button onClick={handleLogIn} style={{ minWidth: "100%" }} variant='success'>Log in</Button>
-            <Button href="/register" style={{ minWidth: "100%" }} className='my-1'>Register</Button>
+            <Button onClick={handleLogIn} style={{ minWidth: "100%" }} variant='success' className='my-1'>Log in</Button>
+            <span>No account? Register <Link to={'/register'} className='link'>here!</Link></span>
             <p>{error}</p>
         </Form>
     )
