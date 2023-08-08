@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import './SideBar.css'
+import LoginForm from '../Login/LoginForm';
 const API_PATH = 'http://localhost:5000';
 
 const SideBar = (props) => {
@@ -62,21 +63,31 @@ const SideBar = (props) => {
                     <Link className="list-item hoverable" to='/categories' onClick={hideSidebar}>
                         Categories
                     </Link>
+                    {props.user && props.user.user_email? 
                     <Link className="list-item hoverable" to='/wishlist' onClick={hideSidebar}>
                         Wishlist
-                    </Link>
+                    </Link>:
+                    <></>}
                     <Link className="list-item ad" onClick={hideSidebar}>
                         Advertisement/Banner
                     </Link>
                     </div>
                     <div className='list-end'>
                     <hr className="divider"/>
-                    <Link className="list-item hoverable" onClick={hideSidebar}>
-                        Account
-                    </Link>
-                    <Link className="list-item hoverable" onClick={handleLogOut}>
-                        Log out
-                    </Link>
+                    {props.user && props.user.user_email? 
+                    <>
+                        <Link className="list-item hoverable" onClick={hideSidebar}>
+                            Account
+                        </Link>
+                        <Link className="list-item hoverable" onClick={handleLogOut}>
+                            Log out
+                        </Link>
+                    </> : 
+                    <div className='mx-3 text-center'>
+                        <h4>Log in</h4>
+                        <LoginForm/>
+                    </div>
+                    }
                     </div>
                 </div>
             </div>
