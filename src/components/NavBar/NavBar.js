@@ -26,7 +26,7 @@ const NavBar = (props) => {
 
   return (
     <>
-    <Navbar className="bg-body-tertiary" data-bs-theme="dark" style={{position:"fixed", width: "100%"}}>
+    <Navbar className="bg-body-tertiary" data-bs-theme="dark" style={{position:"fixed", zIndex: "2", width: "100%"}}>
       <Container fluid>
         <LinkContainer to='/'><Navbar.Brand >DWS</Navbar.Brand></LinkContainer>
         <Navbar.Toggle aria-controls="navbarScroll" />
@@ -47,7 +47,7 @@ const NavBar = (props) => {
               <LinkContainer to='/categories'><NavDropdown.Item>All categories</NavDropdown.Item></LinkContainer>
               <NavDropdown.Divider></NavDropdown.Divider>
               {maincategories.map((n, index) => {
-                return (<CategoryComponent main={n} key={n.maincategory_id} drop='down'/>);
+                return (<CategoryComponent main={n} key={"maincategory" + n.maincategory_id} drop='down'/>);
               })}
             </NavDropdown>
           </Nav>
@@ -97,8 +97,8 @@ const CategoryComponent = (props) => {
   return (
       <CustomNavDropdown title={mainCategory.maincategory_name} href={`/categories/${mainCategory.maincategory_name}`} id="basic-nav-dropdown" className="dropdown-submenu" drop={props.drop}>
         {subCategories.map((n, index) => {
-          return (<LinkContainer to={`/categories/${mainCategory.maincategory_name}/${n.category_name}`}>
-            <NavDropdown.Item key={n.category_id}>{n.category_name}</NavDropdown.Item>
+          return (<LinkContainer to={`/categories/${mainCategory.maincategory_name}/${n.category_name}`} key={"category" + n.category_id}>
+            <NavDropdown.Item >{n.category_name}</NavDropdown.Item>
             </LinkContainer>);
         })}
       </CustomNavDropdown>
@@ -117,16 +117,15 @@ const CustomNavDropdown = (props) => {
   } 
 
   return (
-    <Link to={props.href}>
-    <NavDropdown
-      {...props}
-      show={show}
-      onMouseEnter={handleShow}
-      onMouseLeave={handleHide}
-      onClick={(e) => setLocation(e)}
-    >
-      {props.children}
-    </NavDropdown></Link>
+      <NavDropdown
+        {...props}
+        show={show}
+        onMouseEnter={handleShow}
+        onMouseLeave={handleHide}
+        onClick={(e) => setLocation(e)}
+      >
+        {props.children}
+      </NavDropdown>
   );
 };
 
@@ -157,7 +156,7 @@ const SearchbarComponent = () => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    navigate(`/product?product_name=%${query}%`);
+    navigate(`/product?query=${query}`);
   }
 
   const hideResults = () => {
