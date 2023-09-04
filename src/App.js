@@ -8,6 +8,9 @@ import NavBarPadding from './components/NavbarPadding/NavbarPadding';
 import RegisterPage from './components/pages/RegisterPage/RegisterPage';
 import LoadingComponent from './components/LoadingComponent/LoadingComponent';
 import WelcomePage from './components/pages/WelcomePage/WelcomePage';
+import MainCategoryPage from './components/pages/CategoryPage/MainCategoryPage';
+import CategoryPage from './components/pages/CategoryPage/CategoryPage';
+import FooterComponent from './components/Footer/FooterComponent';
 
 
 const API_PATH = 'http://localhost:5000';
@@ -33,8 +36,6 @@ function App() {
     checkLogin();
   }, []);
 
-  //if (!user) return (<LoadingComponent/>);
-
   return (
     <Router>
       <NavBar user={user}/>
@@ -45,11 +46,14 @@ function App() {
       :
         <Routes>
           <Route path="/" element={<FrontPage user={user}/>} />
-          <Route path="/product" element={<ProductPage user={user}/>} />
+          <Route path="/search" element={<ProductPage user={user}/>} />
+          <Route path="/categories/:mainCategoryName" element={<MainCategoryPage user={user}/>} />
+          <Route path="/categories/:mainCategoryName/:categoryName" element={<CategoryPage user={user}/>} />
           <Route path="/register" element={<RegisterPage user={user}/>} />
-          <Route path="/welcome" element={<WelcomePage user={user}/>} />
+          <Route path="/welcome/" element={<WelcomePage user={user}/>} />
         </Routes>
       }
+      <FooterComponent/>
     </Router>
   );
 }

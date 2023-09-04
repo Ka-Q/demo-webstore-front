@@ -1,0 +1,23 @@
+.product-info {
+    display: flex;
+    flex-wrap: wrap;
+    max-height: 20em; 
+    width: 50%;
+}
+
+.product-manufacturer {
+    width: 100%;
+    text-align: center;
+    font-size: .6rem;
+}
+
+@media only screen and (max-width: 990px) {
+    .product-info {
+        width: 100% !important;
+        min-width: 100% !important;
+    }
+    .product-manufacturer {
+        width: 50% !important;
+        min-width: 50% !important;
+    }
+  }
