@@ -1,37 +1,72 @@
 import { useEffect, useState } from "react";
-import { Card, Image } from "react-bootstrap";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
+import ProductItem from "./ProductItem";
+import { Row, Col, Container } from "react-bootstrap";
+import FilterComponent from "./FilterComponent";
+import { hideResults } from "../../searchBarControl";
 
 const API_PATH = 'http://localhost:5000';
 
 const ProductPage = () => { 
-
+    
     const [searchParams, setSearchParams] = useSearchParams();
     const [products, setProducts] = useState([]);
-    const [error, setError] = useState(false);
+    const [categories, setCategories] = useState([]);
 
     useEffect(() => {
         const fetchProduct = async () => {
             console.log("Fetching products...");
-            const f = await fetch(`${API_PATH}/api/product_expanded?product_name=%${searchParams.get('query')}%`);
+            let query = makeQuery();
+            console.log(query);
+            const f = await fetch(`${API_PATH}/api/product_expanded?${query}`);
             const data = await f.json();
-            if (data.data == "error" || !data.data[0]) {
-                setError(true);
-            } else {
-                setError(false);
-                console.log(data);
-                setProducts(data.data);
-            }
+            setProducts(data.data);
+        }
+        const fetchCategory = async () => {
+            console.log("Fetching categories...");
+            const f = await fetch(`${API_PATH}/api/category?category_name=%${searchParams.get('query')}%`);
+            const data = await f.json();
+            setCategories(data.data);
         }
         fetchProduct();
-    }, [searchParams])
+        fetchCategory();
+    }, [searchParams]);
+
+    const makeQuery = () => {
+        let query = "";
+        if (searchParams.get("query")) query += `product_name=%${searchParams.get('query')}%`;
+        if (searchParams.getAll("category").length > 0) query += `&category_name[]=${searchParams.getAll('category').join(',')}`;
+        if (searchParams.get("min_price")) query += `&min_price=${searchParams.get('min_price')}`;
+        if (searchParams.get("max_price")) query += `&max_price=${searchParams.get('max_price')}`;
+        return query;
+    }
 
     return (
+        <Container className="mx-auto">
+        <Row>
+            <div>
+                <CategoryListComponent categories={categories}/>
+            </div>
+        </Row>
+        <Row>
+            <Col md={3}>
+                    <FilterComponent searchParams={searchParams} setSearchParams={setSearchParams}/>
+            </Col>
+            <Col md={9}>
+                <ProductListComponent products={products}/>
+            </Col>
+        </Row>
+        </Container>
+    )
+}
+
+const ProductListComponent = (props) => {
+    let products = props.products;
+    return (
         <>
-            <h1>{searchParams.get('query')}</h1>
             <div style={{display: "flow"}}>
             {
-            error? 
+            products.length < 1 || !products[0] || !products? 
             <div>
                 No results.
             </div>
@@ -47,73 +82,37 @@ const ProductPage = () => {
     )
 }
 
-const ProductItem = (props) => {
-    let product = props.product;
-
-    if (!product) {
-        return (<li>Waiting...</li>)
-    } 
-    else {
-        return (
-            <Card bg="dark" text="light" className="p-2 my-1" style={{maxWidth: "33%", height: "15em"}}>
-                <div style={{display: "flex"}}>
-                    <div style={{width: "33%"}}>
-                        <img src="https://i.natgeofe.com/k/8fa25ea4-6409-47fb-b3cc-4af8e0dc9616/red-eyed-tree-frog-on-leaves-3-2_3x2.jpg" style={{width: "100%", objectFit: "cover"}}/>
-                        <div><ManufacturerComponent manufacturers={product.manufacturers}/></div>
-                    </div>
-                    <Card.Body>
-                        <Card.Title>{product.product_name}</Card.Title>
-                        <ReviewStarsComponent reviews={product.reviews}/>
-                        <br/>
-                        <>
-                            {product.product_description}
-                        </>
-                    </Card.Body>
-                </div>
-            </Card>
-        )
-    }
-}
-
-const ManufacturerComponent = (props) => {
-    let manufacturers = props.manufacturers;
+const CategoryListComponent = (props) => {
+    let categories = props.categories;
     return (
         <>
-            {manufacturers && manufacturers.length > 0?
-                <>
-                    {manufacturers.map((n, index) => {
-                        return (
-                            <span key={"manufacturer" + n.manufacturer_id}>
-                                {index == manufacturers.length - 1? 
-                                <span>{n.manufacturer_name}</span> 
-                                : 
-                                <span>{n.manufacturer_name}, <br/></span>}
-                            </span>
-                        )
-                    })}
-                </> 
-            : <></>}
+            <div style={{display: "flex", overflow: "auto"}}>
+            {categories.length < 1 || !categories[0] || !categories? 
+            <></>
+            :
+            <>
+                <div>
+                    <h5 style={{whiteSpace: "nowrap"}}>Categories matching your search: </h5>
+                </div>
+                {categories.map((n, index) => {
+                    return (
+                        <CategoryItem category={n} key={"categoryitem" + n.category_id}/>
+                    )
+                })}
+            </>
+            }
+            </div>
         </>
     )
 }
 
-const ReviewStarsComponent = (props) => {
-    let reviews = props.reviews;
+const CategoryItem = (props) => {
+    let category = props.category;
 
-    let avg = -1;
-    if (reviews && reviews.length > 0) {
-        let sum = 0;
-        for (let review of reviews) {
-            sum += Number(review.review_rating);
-        }
-        avg = Math.round((sum / reviews.length) * 2) / 2; // Round to nearest .5
-    }
-    
     return (
-        <>{avg > -1? 
-            <>user rating: {avg}</> :
-            <></>
-        }</>
+        <div>
+            <Link to={`/categories/${category.category_name}`} className="mx-3" style={{display: "block", whiteSpace: "nowrap"}}><h5>{category.category_name}</h5></Link>
+        </div>
     )
 }
 
