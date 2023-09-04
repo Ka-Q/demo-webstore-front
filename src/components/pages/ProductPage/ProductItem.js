@@ -18,7 +18,7 @@ const ProductItem = (props) => {
                     <div className="product-info">
                         <div>
                             <h4>{product.product_name}</h4>
-                            <ReviewStarsComponent reviews={product.reviews}/>
+                            <ReviewStarsComponent reviews={product.reviews} avg={product.avg_review_rating}/>
                             <ProductPriceComponent product={product}/>
                             <p className="mx-1">
                                 {product.product_description} ({product.categories.map((n, index)=>{return (<span key={'descCat'+n.category_id}>{n.category_name}, </span>)})})
@@ -36,7 +36,7 @@ const ProductItem = (props) => {
 
 const ManufacturerComponent = (props) => {
     let manufacturers = props.manufacturers;
-
+    
     return (
         <>
             {manufacturers && manufacturers.length > 0?
@@ -95,18 +95,10 @@ const ProductImageComponent = (props) => {
 }
 
 const ReviewStarsComponent = (props) => {
+    let avg = Math.round((props.avg) * 10) / 10;
     let reviews = props.reviews;
 
     let count = reviews.length || 0;
-
-    let avg = 0;
-    if (reviews && reviews.length > 0) {
-        let sum = 0;
-        for (let review of reviews) {
-            sum += Number(review.review_rating);
-        }
-        avg = Math.round((sum / reviews.length) * 10) / 10; // Round to nearest .1
-    }
 
     let scale = 2;
 
