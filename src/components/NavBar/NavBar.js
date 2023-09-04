@@ -5,7 +5,8 @@ import SideBar from '../SideBar/SideBar';
 import LoginComponent from '../Login/LogIn';
 import LogOutComponent from '../Logout/LogOut';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { hideResults, showResults } from '../searchBarControl';
 
 const API_PATH = 'http://localhost:5000';
 
@@ -133,8 +134,14 @@ const SearchbarComponent = () => {
   const [query, setQuery] = useState("");
   const [products, setProducts] = useState([]);
   const [resultsVisible, setResultsVisible] = useState(false);
-  
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (searchParams.get('query')) setQuery(searchParams.get('query'));
+    hideResults();
+  }, [searchParams])
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -144,37 +151,23 @@ const SearchbarComponent = () => {
         setProducts(data.data);
       }
     }
-    if (query.length > 2) {
+    if (query && query.length > 2) {
       fetchProduct();
-      showResults();
     } else {
       setProducts([]);
       if (resultsVisible) hideResults();
     }
   }, [query]);
 
-
   const handleSearch = (e) => {
     e.preventDefault();
-    navigate(`/product?query=${query}`);
-  }
-
-  const hideResults = () => {
-    const overlay = document.querySelector('#search-overlay');
-    overlay.style.display = 'none';
-    setResultsVisible(false);
-  }
-
-  const showResults = () => {
-    const overlay = document.querySelector('#search-overlay');
-    overlay.style.display = 'block';
-    setResultsVisible(true);
+    navigate(`/search?query=${query}`);
+    hideResults(setResultsVisible);
   }
 
   const handleChange = (e) => {
     setQuery(e.target.value)
-    if (e.target.value.length > 2) showResults();
-    
+    if (e.target.value.length > 2) showResults(setResultsVisible);
   }
 
   return (
@@ -188,6 +181,7 @@ const SearchbarComponent = () => {
         style={{paddingRight: "2rem"}}
         onChange={(e) => handleChange(e)}
         onClick={(e) => handleChange(e)}
+        value={query}
       />
       <button type='submit' style={{position: "absolute", height: "100%", right: ".5rem", background: "transparent", border: "0px"}}>🔍</button>
     </Form>
@@ -199,7 +193,7 @@ const SearchbarComponent = () => {
       })}
       {products.length > 0? <a className='product-search-result-more'>More search results →</a> : <a className='product-search-result-more'>No results</a>}
     </div>
-    <div id='search-overlay' onClick={(e) => hideResults()} onTouchStart={(e) => hideResults()}/>
+    <div id='search-overlay' onClick={(e) => hideResults(setResultsVisible)} onTouchStart={(e) => hideResults(setResultsVisible)}/>
     </>
   )
 }
