@@ -145,7 +145,7 @@ const SearchbarComponent = () => {
 
   useEffect(() => {
     const fetchProduct = async () => {
-      const f = await fetch(`${API_PATH}/api/product?product_name=%${query.trim()}%&limit=5&order=price`);
+      const f = await fetch(`${API_PATH}/api/product?product_name=%${query.trim()}%&limit=5`);
       if (f.status == 200) {
         const data = await f.json();
         setProducts(data.data);
@@ -167,7 +167,11 @@ const SearchbarComponent = () => {
 
   const handleChange = (e) => {
     setQuery(e.target.value)
-    if (e.target.value.length > 2) showResults(setResultsVisible);
+    if (e.target.value.length > 2) {
+      showResults(setResultsVisible);
+    } else {
+      hideResults(setResultsVisible);
+    }
   }
 
   return (
@@ -188,7 +192,7 @@ const SearchbarComponent = () => {
     <div className="product-search" hidden={!resultsVisible}>
       {products.map((n, index) => {
         return(
-          <a className='product-search-result' key={n.product_id}>{n.product_name} - {n.product_name}</a>
+          <a href={"/product/" + n.product_id + "/" + n.product_name} className='product-search-result' key={n.product_id}>{n.product_name} - {n.product_name}</a>
         )
       })}
       {products.length > 0? <a className='product-search-result-more'>More search results →</a> : <a className='product-search-result-more'>No results</a>}
