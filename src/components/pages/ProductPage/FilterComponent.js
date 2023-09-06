@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Card, FormControl, Form, Row, Col } from "react-bootstrap";
+import { Button, Card, FormControl, Form } from "react-bootstrap";
 import { hideResults } from "../../searchBarControl";
 import MultiRangeSlider from "../../multiRangeSlider/MultiRangeSlider";
 
@@ -11,6 +11,8 @@ const FilterComponent = (props) => {
     const searchParams = props.searchParams;
     const setSearchParams = props.setSearchParams;
     const [productName, setProductName] = useState(searchParams.get("query"));
+
+    const [keyNum, setKeyNum] = useState(0);
 
     useEffect(() => {
         const updateProductName = () => {
@@ -25,15 +27,28 @@ const FilterComponent = (props) => {
         hideResults();
     }
 
+    const clearFilters = () => {
+        let keys = [];
+        for (let key of searchParams.keys()) {
+            keys.push(key)
+        }
+        for (let key of keys) {
+            searchParams.delete(key);
+        }
+        searchParams.set("query", productName);
+        setSearchParams(searchParams);
+        setKeyNum(keyNum + 1);
+    }
+
     return (
         <Card bg="dark" text="light" className="sticky-top my-1" style={{width: "100%", maxWidth: "100%", top: 80, zIndex: 0}}>
             <div className="mx-auto" style={{width: "100%", backgroundColor: "rgb(20,20,20)", borderRadius: "inherit", border: "2px solid black"}}>
                 <h2 style={{textAlign: "center"}}>Filter products</h2>
                 <Form className="mx-2">
                     <FormControl placeholder="Product name" onChange={(e) => setProductName(e.target.value)} value={productName}/>
-                    <CategoryFilterComponent searchParams={searchParams}/>
-                    <PricefilterComponent searchParams={searchParams}/>
-                    <Button onClick={() => updateQuery()}>Filter</Button>
+                    <CategoryFilterComponent searchParams={searchParams} key={"Categoryfilter" + keyNum}/>
+                    <PricefilterComponent searchParams={searchParams} key={"Pricefilter" + keyNum}/>
+                    <Button onClick={() => updateQuery()}>Filter</Button> <Button onClick={() => clearFilters()}>Clear filters</Button>
                 </Form>
             </div>
         </Card>
@@ -103,8 +118,6 @@ const MainCategoryFilterItem = (props) => {
         }
     }
 
-    console.log(mainCategory);
-
     return (
         <div className="my-1 pb-2" style={{borderBottom: "1px solid rgb(100,100,100)"}}>
             <input 
@@ -127,6 +140,14 @@ const CategoryFilterItem = (props) => {
     const searchParams = props.searchParams;
     const category = props.category;
 
+    let filtered = false;
+    for (let param of searchParams.getAll('category')) {
+        if (param == category.category_name) {
+            filtered = true;
+            break;
+        }
+    }
+
     const toggleCategory = (e) => {
         let categories = searchParams.getAll('category');
 
@@ -140,11 +161,13 @@ const CategoryFilterItem = (props) => {
         for (const category of categories) {
             searchParams.append('category', category);
         }
+        
     }
 
     return (
         <div className="ms-4" key={"categoryFilter" + category.category_name}>
             <input 
+                defaultChecked={filtered}
                 type="checkbox" name={category.category_name + "Radio"} 
                 id={"categoryCheck" + category.category_id} 
                 className="filter-checkbox"
@@ -158,48 +181,45 @@ const CategoryFilterItem = (props) => {
 
 const PricefilterComponent = (props) => {
     const searchParams = props.searchParams;
-
-    const [disabled, setDisabled] = useState(true);
-
+  
     const min = 0;
     const max = 3000;
+  
+    const filteredMin = searchParams.get('min_price');
+    const filteredMax = searchParams.get('max_price');
+
+    const [disabled, setDisabled] = useState((filteredMin == min && filteredMax == max) || (!filteredMin && !filteredMax));
 
     const updateMinMax = (minVal, maxVal) => {
-        if (!disabled) {
-            if (minVal != min) {
-                searchParams.set("min_price", minVal);
-            } else {
-                searchParams.delete("min_price");
-            }
-            
-            if (maxVal != max) {
-                searchParams.set("max_price", maxVal);
-            } else {
-                searchParams.delete("max_price");
-            }
-        } else {
+      if (!disabled) {
+        searchParams.set("min_price", minVal);
+        searchParams.set("max_price", maxVal);
+      }
+    }
+  
+    const toggle = (e) => {
+        setDisabled(!e.target.checked);
+        if (!e.target.checked) {
             searchParams.delete("min_price");
             searchParams.delete("max_price");
         }
     }
-
-    const toggle = (e) => {
-        setDisabled(!e.target.checked) 
-    }
-
+  
     return (
-        <div className="">
-            <label htmlFor="filter-price-checkbox">Filter by price: </label>
-            <input type="checkbox" id="filter-price-checkbox" className="filter-checkbox" onClick={(e) => toggle(e)}/>
-            <MultiRangeSlider
-                min={min}
-                max={max}
-                onChange={({ min, max }) => updateMinMax(min, max)}
-                disabledVal={disabled}
-            />
-
-        </div>
+      <div className="">
+        <label htmlFor="filter-price-checkbox">Filter by price: </label>
+        <input defaultChecked={!disabled} type="checkbox" id="filter-price-checkbox" className="filter-checkbox" onClick={(e) => toggle(e)}/>
+        <MultiRangeSlider
+          min={Number(min)}
+          max={Number(max)}
+          onChange={({ min, max }) => updateMinMax(min, max)}
+          disabledVal={disabled}
+          initialMin={filteredMin}
+          initialMax={filteredMax}
+        />
+      </div>
     )
-}
+  }
+  
 
 export default FilterComponent;
