@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import { Routes, Route, BrowserRouter as Router } from 'react-router-dom'
 import FrontPage from './components/pages/FrontPage/FrontPage';
-import ProductPage from './components/pages/ProductPage/ProductPage';
+import SearchPage from './components/pages/SearchPage/SearchPage';
 import NavBar from './components/NavBar/NavBar';
 import NavBarPadding from './components/NavbarPadding/NavbarPadding';
 import RegisterPage from './components/pages/RegisterPage/RegisterPage';
@@ -11,6 +11,7 @@ import WelcomePage from './components/pages/WelcomePage/WelcomePage';
 import MainCategoryPage from './components/pages/CategoryPage/MainCategoryPage';
 import CategoryPage from './components/pages/CategoryPage/CategoryPage';
 import FooterComponent from './components/Footer/FooterComponent';
+import ProductPage from './components/pages/ProductPage/ProductPage';
 
 
 const API_PATH = 'http://localhost:5000';
@@ -46,7 +47,8 @@ function App() {
       :
         <Routes>
           <Route path="/" element={<FrontPage user={user}/>} />
-          <Route path="/search" element={<ProductPage user={user}/>} />
+          <Route path="/search" element={<SearchPage user={user}/>} />
+          <Route path="/product/:id/:productName" element={<ProductPage user={user}/>} />
           <Route path="/categories/:mainCategoryName" element={<MainCategoryPage user={user}/>} />
           <Route path="/categories/:mainCategoryName/:categoryName" element={<CategoryPage user={user}/>} />
           <Route path="/register" element={<RegisterPage user={user}/>} />
