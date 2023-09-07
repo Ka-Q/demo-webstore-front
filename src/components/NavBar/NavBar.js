@@ -195,7 +195,17 @@ const SearchbarComponent = () => {
           <a href={"/product/" + n.product_id + "/" + n.product_name} className='product-search-result' key={n.product_id}>{n.product_name} - {n.product_name}</a>
         )
       })}
-      {products.length > 0? <a className='product-search-result-more'>More search results →</a> : <a className='product-search-result-more'>No results</a>}
+      {products.length > 0? 
+        <Link to={`/search?query=${query}`} 
+              className='product-search-result-more'
+              onClick={(e) => hideResults(setResultsVisible)}
+        >
+          More search results →
+        </Link> 
+      : 
+        <a className='product-search-result-more'>
+          No results
+        </a>}
     </div>
     <div id='search-overlay' onClick={(e) => hideResults(setResultsVisible)} onTouchStart={(e) => hideResults(setResultsVisible)}/>
     </>
