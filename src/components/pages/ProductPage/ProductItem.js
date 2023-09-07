@@ -1,5 +1,5 @@
 import "./ProductItem.css"
-import { Card, Image } from "react-bootstrap";
+import { Card, Col, Image, Row } from "react-bootstrap";
 
 const ProductItem = (props) => {
     let product = props.product;
@@ -9,26 +9,22 @@ const ProductItem = (props) => {
     } 
     else {
         return (
-            <Card bg="dark" text="light" className=" my-1" style={{maxWidth: "100%"}}>
-                <div className="mx-auto" style={{display: "flex", flexWrap: "wrap",  backgroundColor: "rgb(20,20,20)", borderRadius: "inherit", border: "2px solid black"}}>
-                    <div className="mx-auto" style={{textAlign: "center"}}>
+            <Card className=" my-1" style={{backgroundColor: "rgb(20,20,20)", border: "2px solid black", color: "white"}}>
+                <Row>
+                    <Col sm={6} className="text-center">
                         <ProductImageComponent src="https://media.istockphoto.com/id/175422366/photo/frog-eating-a-fly.jpg?s=612x612&w=0&k=20&c=Jqki5v4ohuT-FebvDd4dP1Q4gj4SFCS0ZhEOfHATTmc="/>
                         <ManufacturerComponent manufacturers={product.manufacturers}/>
-                    </div>
-                    <div className="product-info">
-                        <div>
-                            <h4>{product.product_name}</h4>
-                            <ReviewStarsComponent reviews={product.reviews} avg={product.avg_review_rating}/>
-                            <ProductPriceComponent product={product}/>
-                            <p className="mx-1">
-                                {product.product_description} ({product.categories.map((n, index)=>{return (<span key={'descCat'+n.category_id}>{n.category_name}, </span>)})})
-                                aaaa aaaaa aaaaaaaaaaaaaaa aaaa aaaaa a aaaa aa aaaaa aaa aa aa  aaa aaa aa aaa aaaa aaa 
-                                aaaaaa aaa aa aaa aaaa aaaa aaaaaa aaa aaa aaa aaaa aaaaa aaaa aaa aa aaaaa aaaaa aaa aaaaa 
-                                aaaaaa aaa aaa a aaaaa aaa aaa aaa aa a aaaaa...
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                    </Col>
+                    <Col sm={6}>
+                        <h4><a href={"/product/" + product.product_id + "/" + product.product_name}>{product.product_name}</a></h4>
+                        <ReviewStarsComponent reviews={product.reviews} avg={product.avg_review_rating}/>
+                        <ProductPriceComponent product={product}/>
+                        <p className="mx-1">
+                            {product.product_description} ({product.categories.map((n, index)=>{return (<span key={'descCat'+n.category_id}>{n.category_name}, </span>)})})
+                            ...
+                        </p>
+                    </Col>
+                </Row>
             </Card>
         )
     }
@@ -38,7 +34,7 @@ const ManufacturerComponent = (props) => {
     let manufacturers = props.manufacturers;
     
     return (
-        <>
+        <div>
             {manufacturers && manufacturers.length > 0?
                 <div className="m-2 mx-auto" 
                 >
@@ -46,16 +42,16 @@ const ManufacturerComponent = (props) => {
                         return (
                             <span key={"manufacturer" + n.manufacturer_id}>
                                 {index == manufacturers.length - 1? 
-                                <span> {n.manufacturer_name}</span> 
+                                <a href="#"> {n.manufacturer_name}</a> 
                                 : 
-                                <span> {n.manufacturer_name}, </span>}
+                                <><a href="#"> {n.manufacturer_name}</a>, </>}
                             </span>
                         )
                     })}
                     <br/>
                 </div> 
             : <></>}
-        </>
+        </div>
     )
 }
 
@@ -66,7 +62,7 @@ const ProductPriceComponent = (props) => {
     return (
         <div className="mt-4 mb-3" style={{position: "relative", color: 'red', fontSize: "1.5rem", fontWeight: "bold"}}>
             {price}€
-            <div style={{position: "absolute", top: "0", right: "1em", width: "3rem", height: "3rem", backgroundColor: "green", color: "white", border: "2px solid black", borderRadius: ".2em", textAlign: "center"}}>
+            <div style={{position: "absolute", top: "0", right: "1em", width: "3rem", height: "3rem", backgroundColor: "green", color: "white", border: "2px solid black", borderRadius: ".2em", textAlign: "center", cursor: "pointer"}}>
                 🛒
             </div>
         </div>
@@ -89,7 +85,8 @@ const ProductImageComponent = (props) => {
             backgroundRepeat: "no-repeat", 
             backgroundSize: "cover", 
             border: "2px solid black", 
-            borderRadius: ".5rem"}}>
+            borderRadius: ".5rem",
+            cursor: "pointer"}}>
         </div>
     )
 }
