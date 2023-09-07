@@ -34,7 +34,6 @@ const SearchPage = () => {
 
     const makeQuery = () => {
         let query = "";
-        console.log("MakeQuery: " + searchParams.get("min_price"));
         if (searchParams.get("query")) query += `product_name=%${searchParams.get('query')}%`;
         if (searchParams.getAll("category").length > 0) query += `&category_name[]=${searchParams.getAll('category').join(',')}`;
         if (searchParams.get("min_price")) query += `&min_price=${searchParams.get('min_price')}`;
