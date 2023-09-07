@@ -51,7 +51,6 @@ const MultiRangeSlider = ({ min, max, onChange, initialMin, initialMax, disabled
 
   // Initialize slider handles
   useEffect(() => {
-    console.log("in useEffect: " + initialMin + ", " + initialMax);
     if (initialMin) {
       setMinVal(initialMin);
       minValRef.current = initialMin;
