@@ -29,13 +29,32 @@ function App() {
       });
       const data = await f.json();
       if (data.user_email) {
-        setUser(data);
+        setUser({...data, image_src: "default_pfp.png"});
       } else {
         setUser({});
       }
     }
     checkLogin();
   }, []);
+
+  useEffect(() => {
+    const getPfp = async() => {
+      const f = await fetch(`${API_PATH}/api/image?image_id=${user.image_id}`, { 
+        credentials: 'include', 
+        headers: {
+        'Content-Type': 'application/json'
+        }
+      });
+      const data = await f.json();
+      if (data.data[0] && data.data[0].image_src != "default_pfp.png") {
+        setUser({...user, image_src: data.data[0].image_source});
+      }
+    }
+    if (user && user.image_src == "default_pfp.png") {
+      getPfp();
+    }
+    
+  }, [user]);
 
   return (
     <Router>

@@ -1,6 +1,6 @@
 import './NavBar.css'
 import { useEffect, useState } from 'react';
-import { Navbar, Container, Nav, NavDropdown, Form, Button, DropdownButton, Dropdown} from 'react-bootstrap';
+import { Navbar, Container, Nav, NavDropdown, Form, Button, DropdownButton, Dropdown, Image} from 'react-bootstrap';
 import SideBar from '../SideBar/SideBar';
 import LoginComponent from '../Login/LogIn';
 import LogOutComponent from '../Logout/LogOut';
@@ -62,8 +62,16 @@ const NavBar = (props) => {
               : 
               <>
                 <LogOutComponent className='large-screen-login'/>
-                <LinkContainer to='/profile'><Nav.Link className='large-screen'>🤷‍♂️ Profile</Nav.Link></LinkContainer>
-                <LinkContainer to='/profile'><Nav.Link className='small-screen'>🤷‍♂️</Nav.Link></LinkContainer>
+                <LinkContainer to='/profile'>
+                  <Nav.Link className='large-screen'>
+                    <Image src={`${API_PATH}/api/imagefile?filename=${props.user.image_src}`} height="20px" style={{borderRadius: "100px"}}/> Profile
+                  </Nav.Link>
+                </LinkContainer>
+                <LinkContainer to='/profile'>
+                  <Nav.Link className='small-screen'>
+                    <Image src={`${API_PATH}/api/imagefile?filename=${props.user.image_src}`} height="20px" style={{borderRadius: "100px"}}/>
+                  </Nav.Link>
+                </LinkContainer>
               </>
             }
             <Nav.Link className='mx-2 large-screen'>🛒 Cart</Nav.Link>
