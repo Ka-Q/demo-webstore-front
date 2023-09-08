@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import './SideBar.css'
 import LoginForm from '../Login/LoginForm';
+import { Image } from 'react-bootstrap';
 const API_PATH = 'http://localhost:5000';
 
 const SideBar = (props) => {
@@ -77,6 +78,9 @@ const SideBar = (props) => {
                     {props.user && props.user.user_email? 
                     <>
                         <Link className="list-item hoverable" onClick={hideSidebar}>
+                            <div style={{position: "absolute", top: "50%", transform: "translate(50%,-50%)"}}>
+                                <Image src={`${API_PATH}/api/imagefile?filename=${props.user.image_src}`} height="40px" style={{borderRadius: "100px"}}/>
+                            </div>
                             Account
                         </Link>
                         <Link className="list-item hoverable" onClick={handleLogOut}>
