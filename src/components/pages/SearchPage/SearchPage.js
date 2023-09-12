@@ -3,7 +3,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import ProductItem from "./ProductItem";
 import { Row, Col, Container } from "react-bootstrap";
 import FilterComponent from "./FilterComponent";
-import { hideResults } from "../../searchBarControl";
+import './SearchPage.css';
 
 const API_PATH = 'http://localhost:5000';
 
@@ -43,19 +43,22 @@ const SearchPage = () => {
 
     return (
         <Container className="mx-auto">
-        <Row>
-            <div>
-                <CategoryListComponent categories={categories}/>
+            <div className="text-center mt-5">
+                <h1>Showing results for "{searchParams.get('query') || "All products"}"</h1>
             </div>
-        </Row>
-        <Row>
-            <Col md={3}>
-                <FilterComponent searchParams={searchParams} setSearchParams={setSearchParams}/>
-            </Col>
-            <Col md={9}>
-                <ProductListComponent products={products}/>
-            </Col>
-        </Row>
+            <Row>
+                <div>
+                    <CategoryListComponent categories={categories}/>
+                </div>
+            </Row>
+            <Row>
+                <Col md={3}>
+                    <FilterComponent searchParams={searchParams} setSearchParams={setSearchParams}/>
+                </Col>
+                <Col md={9}>
+                    <ProductListComponent products={products}/>
+                </Col>
+            </Row>
         </Container>
     )
 }
@@ -86,22 +89,38 @@ const CategoryListComponent = (props) => {
     let categories = props.categories;
     return (
         <>
-            <div style={{display: "flex", overflow: "auto"}}>
+            
             {categories.length < 1 || !categories[0] || !categories? 
             <></>
             :
             <>
-                <div>
-                    <h5 style={{whiteSpace: "nowrap"}}>Categories matching your search: </h5>
+            <hr/>
+            <div className="pt-1 mt-2 small-screen-category-header" >
+                <h5 style={{width: "7rem"}}>Categories:</h5>
+            </div>
+            <div style={{display: "flex", overflow: "clip", position: "relative"}}>
+                <div className="pt-1 mt-2 large-screen" >
+                    <h5 style={{width: "7rem"}}>Categories:</h5>
                 </div>
-                {categories.map((n, index) => {
-                    return (
-                        <CategoryItem category={n} key={"categoryitem" + n.category_id}/>
-                    )
-                })}
+                <div className="left-fade-large large-screen"/>
+                <div className="left-fade-small small-screen"/>
+                <div className="right-fade"/>
+                <div className="category-fade mt-2 pb-2" style={{position: "relative", display: "flex", overflow: "auto"}}>
+                    {categories.map((n, index) => {
+                        return (
+                            <CategoryItem category={n} key={"categoryitem" + n.category_id}/>
+                        )
+                    })}
+                    {categories.map((n, index) => {
+                        return (
+                            <CategoryItem category={n} key={"categoryitem" + n.category_id}/>
+                        )
+                    })}
+                </div>
+            </div>
+            <hr/>
             </>
             }
-            </div>
         </>
     )
 }
@@ -110,8 +129,8 @@ const CategoryItem = (props) => {
     let category = props.category;
 
     return (
-        <div>
-            <Link to={`/categories/${category.category_name}`} className="mx-3" style={{display: "block", whiteSpace: "nowrap"}}><h5>{category.category_name}</h5></Link>
+        <div className="pt-1 ms-1 flex-category-button" style={{border: "2px solid white", borderRadius: "10em", userSelect: "none"}}>
+            <Link to={`/categories/${category.category_name}`} className="px-3" style={{display: "block", whiteSpace: "nowrap"}}><h5>{category.category_name}</h5></Link>
         </div>
     )
 }
