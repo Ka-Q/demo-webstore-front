@@ -1,0 +1,43 @@
+.left-fade-large {
+    position: absolute;
+    content: "";
+    width: 3em;
+    height: 100%;
+    left: 0;
+    margin-left: 6.5rem;
+    background-image: linear-gradient(to left, rgba(30,30,30,0), rgba(30,30,30, 1) 80%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.left-fade-small {
+    position: absolute;
+    content: "";
+    width: 3em;
+    height: 100%;
+    left: 0;
+    background-image: linear-gradient(to left, rgba(30,30,30,0), rgba(30,30,30, 1) 80%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.right-fade {
+    position: absolute;
+    content: "";
+    width: 3em;
+    height: 100%;
+    right: -.5rem;
+    background-image: linear-gradient(to right, rgba(30,30,30,0), rgba(30,30,30, 1) 80%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+@media only screen and (min-width: 875px) {
+    .small-screen-category-header {
+        display: none !important;
+    }
+  }
+
+.flex-category-button:hover {
+     background-color: rgb(50,50,50);
+}

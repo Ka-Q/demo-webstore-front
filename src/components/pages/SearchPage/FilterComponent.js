@@ -41,14 +41,15 @@ const FilterComponent = (props) => {
     }
 
     return (
-        <Card bg="dark" text="light" className="sticky-top my-1" style={{width: "100%", maxWidth: "100%", top: 80, zIndex: 0}}>
-            <div className="mx-auto" style={{width: "100%", backgroundColor: "rgb(20,20,20)", borderRadius: "inherit", border: "2px solid black"}}>
+        <Card className="sticky-top my-1 mx-auto" style={{color: "white", width: "100%", backgroundColor: "rgb(20,20,20)", border: "2px solid rgb(40,40,40)", maxWidth: "100%", top: 80, zIndex: 0}}>
+            <div>
                 <h2 style={{textAlign: "center"}}>Filter products</h2>
                 <Form className="mx-2">
                     <FormControl placeholder="Product name" onChange={(e) => setProductName(e.target.value)} value={productName}/>
                     <CategoryFilterComponent searchParams={searchParams} key={"Categoryfilter" + keyNum}/>
                     <PricefilterComponent searchParams={searchParams} key={"Pricefilter" + keyNum}/>
                     <Button onClick={() => updateQuery()}>Filter</Button> <Button onClick={() => clearFilters()}>Clear filters</Button>
+                    <div className="mb-2"/>
                 </Form>
             </div>
         </Card>
