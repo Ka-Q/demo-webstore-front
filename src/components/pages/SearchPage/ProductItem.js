@@ -1,27 +1,33 @@
 import "./ProductItem.css"
-import { Card, Col, Image, Row } from "react-bootstrap";
+import { Card, Col, Container, Row, Image} from "react-bootstrap";
+
+const API_PATH = 'http://localhost:5000';
 
 const ProductItem = (props) => {
     let product = props.product;
+    
 
     if (!product) {
         return (<li>Waiting...</li>)
     } 
     else {
+        let image_src = "missing_image.png";
+        if (product.images && product.images[0]) image_src = product.images[0].image_source; 
+        console.log("image src: " + image_src);
         return (
             <Card className=" my-1" style={{backgroundColor: "rgb(20,20,20)", border: "2px solid rgb(40,40,40)", color: "white"}}>
                 <Row>
                     <Col sm={6} className="text-center">
-                        <ProductImageComponent src="https://media.istockphoto.com/id/175422366/photo/frog-eating-a-fly.jpg?s=612x612&w=0&k=20&c=Jqki5v4ohuT-FebvDd4dP1Q4gj4SFCS0ZhEOfHATTmc="/>
+                        <ProductImageComponent src={`${API_PATH}/api/imagefile?filename=${image_src}`} images={product.images}/>
                     </Col>
                     <Col sm={6}>
                         <h4 className="mt-1 ms-2"><a href={"/product/" + product.product_id + "/" + product.product_name}>{product.product_name}</a></h4>
                         <ReviewStarsComponent reviews={product.reviews} avg={product.avg_review_rating}/>
                         <ProductPriceComponent product={product}/>
-                        <Row className="mx-auto mt-1">
-                            <p>{product.product_description} ({product.categories.map((n, index)=>{return (<span key={'descCat'+n.category_id}>{n.category_name}, </span>)})})
+                        <Container className="mx-auto mt-1" style={{position: "relative"}}>
+                            <p style={{height: "inherit"}}>{product.product_description} ({product.categories.map((n, index)=>{return (<span key={'descCat'+n.category_id}>{n.category_name}, </span>)})})
                             ...</p>
-                        </Row>
+                        </Container>
                     </Col>
                 </Row>
             </Card>
@@ -64,14 +70,15 @@ const ProductPriceComponent = (props) => {
         {!product.discount? 
             <Col md={3}><span className="me-2" style={{fontSize: "1.5em", fontWeight: "bold", color: "red", whiteSpace: "nowrap"}}>{price}€</span></Col>
             :
-            <Col md={12} >
-            <span className="me-2" style={{fontSize: "1.5em", fontWeight: "bold", textDecoration: "line-through", color: "darkred", whiteSpace: "nowrap"}}>{price}€</span> 
-            <span className="me-2" style={{fontSize: "1.5em", fontWeight: "bold", color: "red", whiteSpace: "nowrap"}}>{price - (price / 100 * product.discount)}€</span>
-            <span className="px-1" style={{border: "1px solid orange", borderRadius: ".2em", color: "orange", textDecoration: "none", whiteSpace: "nowrap"}}>🕑 -{product.discount}% 10h 32min</span>
+            <Col md={5}>
+            <span className="me-2" style={{fontSize: "1.5em", fontWeight: "bold", color: "red", whiteSpace: "nowrap"}}>{price - (price / 100 * product.discount)}€ 
+                <span className="me-2" style={{fontSize: "1em", fontWeight: "bold", textDecoration: "line-through", color: "darkred"}}> {price}€</span> 
+            </span>
+            <span className="px-1" style={{border: "1px solid orange", borderRadius: ".2em", color: "orange", textDecoration: "none", whiteSpace: "nowrap"}}>🕑 10h 32min</span>
             </Col>
             }
             <Col style={{fontSize: "1.5em"}}>
-                <div className="text-center mt-2 ms-auto" style={{background: "green", border: "2px solid rgb(0, 175, 0)", borderRadius: ".2em", cursor: "pointer", width: "8em", whiteSpace: "nowrap"}}>🛒 Add to cart</div>
+                <div className="text-center mt-2 ms-auto" style={{background: "green", border: "2px solid rgb(0, 175, 0)", borderRadius: ".2em", cursor: "pointer", width: "11rem", whiteSpace: "nowrap"}}>🛒 Add to cart</div>
             </Col>
         </Row>
         </>
