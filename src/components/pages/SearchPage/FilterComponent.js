@@ -41,11 +41,11 @@ const FilterComponent = (props) => {
     }
 
     return (
-        <Card className="sticky-top my-1 mx-auto" style={{color: "white", width: "100%", backgroundColor: "rgb(20,20,20)", border: "2px solid rgb(40,40,40)", maxWidth: "100%", top: 80, zIndex: 0}}>
+        <Card className="sticky-top my-1 mx-auto" style={{color: "white", width: "100%", backgroundColor: "rgb(20,20,20)", border: "2px solid rgb(40,40,40)", maxWidth: "100%", top: 80, zIndex: 0, overflow: "auto", height: "80vh"}}>
             <div>
                 <h2 style={{textAlign: "center"}}>Filter products</h2>
                 <Form className="mx-2">
-                    <FormControl placeholder="Product name" onChange={(e) => setProductName(e.target.value)} value={productName}/>
+                    <FormControl placeholder="Product name" onChange={(e) => setProductName(e.target.value)} value={productName} className="bg-body-tertiary my-3" data-bs-theme="dark"/>
                     <CategoryFilterComponent searchParams={searchParams} key={"Categoryfilter" + keyNum}/>
                     <PricefilterComponent searchParams={searchParams} key={"Pricefilter" + keyNum}/>
                     <Button onClick={() => updateQuery()}>Filter</Button> <Button onClick={() => clearFilters()}>Clear filters</Button>
@@ -106,15 +106,19 @@ const MainCategoryFilterItem = (props) => {
     const toggleMainCategory = (e) => {
         if(e.target.checked) {
             for (let cat of subCategories) {
-                let checkbox = document.querySelector(`#categoryCheck${cat.category_id}`);
-                checkbox.checked = true;
-                searchParams.append('category', cat.category_name);
+                let checkboxes = document.querySelectorAll(`#categoryCheck${mainCategory.maincategory_id}-${cat.category_id}`);
+                for (let checkbox of checkboxes) {
+                    checkbox.checked = true;
+                    searchParams.append('category', cat.category_name);
+                }
             }
         } else {
             for (let cat of subCategories) {
-                let checkbox = document.querySelector(`#categoryCheck${cat.category_id}`);
-                checkbox.checked = false;
-                searchParams.delete('category');
+                let checkboxes = document.querySelectorAll(`#categoryCheck${mainCategory.maincategory_id}-${cat.category_id}`);
+                for (let checkbox of checkboxes) {
+                    checkbox.checked = false;
+                    searchParams.delete('category');
+                }
             }
         }
     }
@@ -131,7 +135,7 @@ const MainCategoryFilterItem = (props) => {
             />
             <label htmlFor={"mainCategoryCheck" + mainCategory.maincategory_id}>{mainCategory.maincategory_name}</label><br/>
             {subCategories.map((n, index) => {
-                return (<CategoryFilterItem key={"categoryFilterItem" + n.category_id} category={n} searchParams={searchParams}/>)
+                return (<CategoryFilterItem key={"categoryFilterItem" + n.category_id} category={n} searchParams={searchParams} mainCategory={mainCategory}/>)
             })}
         </div>
     )
@@ -170,12 +174,12 @@ const CategoryFilterItem = (props) => {
             <input 
                 defaultChecked={filtered}
                 type="checkbox" name={category.category_name + "Radio"} 
-                id={"categoryCheck" + category.category_id} 
+                id={`categoryCheck${props.mainCategory.maincategory_id}-${category.category_id}`} 
                 className="filter-checkbox"
                 value={category.category_name}
                 onChange={(e) => toggleCategory(e)}
             />
-            <label htmlFor={"categoryCheck" + category.category_id}>{category.category_name}</label><br/>
+            <label htmlFor={`categoryCheck${props.mainCategory.maincategory_id}-${category.category_id}`}>{category.category_name}</label><br/>
         </div>
     )
 }
@@ -207,7 +211,7 @@ const PricefilterComponent = (props) => {
     }
   
     return (
-      <div className="">
+      <div>
         <label htmlFor="filter-price-checkbox">Filter by price: </label>
         <input defaultChecked={!disabled} type="checkbox" id="filter-price-checkbox" className="filter-checkbox" onClick={(e) => toggle(e)}/>
         <MultiRangeSlider

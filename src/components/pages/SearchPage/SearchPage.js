@@ -36,8 +36,8 @@ const SearchPage = () => {
         let query = "";
         if (searchParams.get("query")) query += `product_name=%${searchParams.get('query')}%`;
         if (searchParams.getAll("category").length > 0) query += `&category_name[]=${searchParams.getAll('category').join(',')}`;
-        if (searchParams.get("min_price")) query += `&min_price=${searchParams.get('min_price')}`;
-        if (searchParams.get("max_price")) query += `&max_price=${searchParams.get('max_price')}`;
+        if (searchParams.get("min_price")) query += `&min_price=${searchParams.get('min_price') * 100}`;
+        if (searchParams.get("max_price")) query += `&max_price=${searchParams.get('max_price') * 100}`;
         return query;
     }
 
@@ -111,11 +111,6 @@ const CategoryListComponent = (props) => {
                             <CategoryItem category={n} key={"categoryitem" + n.category_id}/>
                         )
                     })}
-                    {categories.map((n, index) => {
-                        return (
-                            <CategoryItem category={n} key={"categoryitem" + n.category_id}/>
-                        )
-                    })}
                 </div>
             </div>
             <hr/>
@@ -129,8 +124,8 @@ const CategoryItem = (props) => {
     let category = props.category;
 
     return (
-        <div className="pt-1 ms-1 flex-category-button" style={{border: "2px solid white", borderRadius: "10em", userSelect: "none"}}>
-            <Link to={`/categories/${category.category_name}`} className="px-3" style={{display: "block", whiteSpace: "nowrap"}}><h5>{category.category_name}</h5></Link>
+        <div className="ms-1 flex-category-button" style={{border: "2px solid white", borderRadius: "10em", userSelect: "none"}}>
+            <Link to={`/categories/${category.category_name}`} className="px-3 pt-1" style={{display: "block", whiteSpace: "nowrap"}}><h5>{category.category_name}</h5></Link>
         </div>
     )
 }
