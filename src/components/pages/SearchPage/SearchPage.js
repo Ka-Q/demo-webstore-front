@@ -43,9 +43,6 @@ const SearchPage = () => {
 
     return (
         <Container className="mx-auto">
-            <div className="text-center mt-5">
-                <h1>Showing results for "{searchParams.get('query') || "All products"}"</h1>
-            </div>
             <Row>
                 <div>
                     <CategoryListComponent categories={categories}/>
@@ -56,6 +53,9 @@ const SearchPage = () => {
                     <FilterComponent searchParams={searchParams} setSearchParams={setSearchParams}/>
                 </Col>
                 <Col md={9}>
+                    <div className="text-center my-5">
+                        <h1>Showing results for "{searchParams.get('query') || "All products"}"</h1>
+                    </div>
                     <ProductListComponent products={products}/>
                 </Col>
             </Row>
@@ -89,28 +89,22 @@ const CategoryListComponent = (props) => {
     let categories = props.categories;
     return (
         <>
-            
             {categories.length < 1 || !categories[0] || !categories? 
             <></>
             :
             <>
-            <hr/>
-            <div className="pt-1 mt-2 small-screen-category-header" >
-                <h5 style={{width: "7rem"}}>Categories:</h5>
-            </div>
-            <div style={{display: "flex", overflow: "clip", position: "relative"}}>
-                <div className="pt-1 mt-2 large-screen" >
-                    <h5 style={{width: "7rem"}}>Categories:</h5>
-                </div>
-                <div className="left-fade-large large-screen"/>
-                <div className="left-fade-small small-screen"/>
+            <h5> Categories matching your search:</h5>
+            <div style={{display: "flex", overflow: "clip", position: "relative", borderRadius: ".3em"}}>
+                <div className="left-fade"/>
                 <div className="right-fade"/>
                 <div className="category-fade mt-2 pb-2" style={{position: "relative", display: "flex", overflow: "auto"}}>
+                    <div className="mx-3"/>
                     {categories.map((n, index) => {
                         return (
                             <CategoryItem category={n} key={"categoryitem" + n.category_id}/>
                         )
                     })}
+                    <div className="mx-3"/>
                 </div>
             </div>
             <hr/>
