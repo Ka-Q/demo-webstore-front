@@ -13,7 +13,6 @@ const ProductItem = (props) => {
     else {
         let image_src = "missing_image.png";
         if (product.images && product.images[0]) image_src = product.images[0].image_source; 
-        console.log("image src: " + image_src);
         return (
             <Card className=" my-1" style={{backgroundColor: "rgb(20,20,20)", border: "2px solid rgb(40,40,40)", color: "white"}}>
                 <Row>
