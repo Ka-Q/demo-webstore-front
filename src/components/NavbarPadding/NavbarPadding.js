@@ -1,7 +1,7 @@
-const NavBarPadding = () => {
+const NavbarPadding = () => {
     return (
         <div style={{paddingTop: "72px"}}/>
     )
 }
 
-export default NavBarPadding;
+export default NavbarPadding;

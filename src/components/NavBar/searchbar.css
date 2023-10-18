@@ -1,0 +1,64 @@
+
+.searchbar-form {
+    width: 100%;
+    max-width: 60%;
+    position: relative;
+}
+
+.searchbar-input {
+    padding-right: 2rem !important;
+}
+
+.searchbar-button {
+    position: absolute;
+    height: 100%;
+    right: .5rem;
+    background: transparent;
+    border: 0px;
+}
+
+#search-overlay {
+    position: fixed;
+    top: 56px;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 1;
+    display: none;
+}
+
+.searchbar-results {
+    margin: 0;
+    position: fixed;
+    top: 50px;
+    left: 10%;
+    right: -10%;
+    padding: .5em;
+    background: rgb(40, 40, 40);
+    color: white;
+    width: 80%;
+    border: 2px solid rgb(60, 60, 60);
+    border-radius: .2em;
+    user-select: none;
+    z-index: 5;
+}
+
+.searchbar-results-product {
+    display: block;
+    padding-left: .5rem;
+    border-radius: .2em;
+    line-height: 3em;
+    cursor: pointer;
+    margin: 0px 0px 2px 0px;
+    border: 2px solid rgb(60, 60, 60);
+}
+
+.searchbar-results-more {
+    font-size: 1.5em;
+    display: block;
+    cursor: pointer;
+}
+
+.searchbar-results-product:hover, .searchbar-results-more:hover {
+    background-color: rgb(60, 60, 60);
+}

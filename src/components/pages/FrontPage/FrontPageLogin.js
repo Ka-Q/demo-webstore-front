@@ -1,5 +1,5 @@
 import './FrontPageLogin.css'
-import LoginForm from "../../Login/LoginForm";
+import LoginForm from "../../LoginForm/LoginForm";
 
 const FrontPageLogin = () => {
     return (

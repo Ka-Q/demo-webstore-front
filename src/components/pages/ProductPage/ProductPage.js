@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { ImageViewerComponent } from "../../ImageViewerComponent/ImageViewerComponent";
+import { ImageViewer } from "../../ImageViewer/ImageViewer";
 import { Col, Container, Row } from "react-bootstrap";
 
 const API_PATH = 'http://localhost:5000';
 
-const ProductPage = (props) => {
+const ProductPage = () => {
 
     const [product, setProduct] = useState({});
 
@@ -26,7 +26,7 @@ const ProductPage = (props) => {
             </h1>
             <Row className="mx-auto mt-4">
                 <Col sm={5}>
-                    {product.images? <ImageViewerComponent images={product.images} path={API_PATH + "/api/imagefile?filename="}/> : <></>}
+                    {product.images? <ImageViewer images={product.images} path={API_PATH + "/api/imagefile?filename="}/> : <></>}
                 </Col>
                 <Col>
                     {product.product_description}

@@ -1,7 +1,7 @@
-import { useEffect, useState} from "react"
-import { Image, Card } from "react-bootstrap"
+import './imageViewer.css';
 
-import './ImageViewer.css';
+import { useState} from "react"
+import { Image, Card } from "react-bootstrap"
 
 // Maps the list of preview images for ImageViewerComponent
 const mapImageToPreviews = (imageList, path, clickedPic, setClickedPic) => {
@@ -26,19 +26,19 @@ const mapImageToPreviews = (imageList, path, clickedPic, setClickedPic) => {
 }
 
 // Component for viewing Images. Buttons and a scrollbar for navigating between the images.
-const ImageViewerComponent = (props) => {
+const ImageViewer = ({images, path}) => {
 
-    const [clickedPic, setClickedPic] = useState(props.images[0]);
-    const imageList = props.images;
+    const [clickedPic, setClickedPic] = useState(images[0]);
+    const imageList = images;
 
-    if (!props.images || props.images.length == 0) return (
+    if (!images || images.length == 0) return (
         <Card border="secondary" style={{backgroundColor: "rgb(50,50,50)", color: "white"}}>
             No images
         </Card>
     )
 
     // Mapping to previews
-    let previewList = mapImageToPreviews(imageList, props.path, clickedPic, setClickedPic)
+    let previewList = mapImageToPreviews(imageList, path, clickedPic, setClickedPic)
 
     // Scrolls the previews until chosen picture comes to view. "dir" is direction
     const scrollToPreview = (dir) => {
@@ -71,8 +71,8 @@ const ImageViewerComponent = (props) => {
     return(
         <Card className="p-2" style={{backgroundColor: "rgb(20,20,20)", border: "2px solid rgb(40,40,40)", color: "white"}}>
             <div style={{height: "30em", position: "relative"}}>
-                <a onClick={(e) => window.open(props.path + clickedPic.image_source, '_blank').focus()} style={{}}>
-                    <Image className="carousel-image" fluid src={props.path + clickedPic.image_source}/>
+                <a onClick={(e) => window.open(path + clickedPic.image_source, '_blank').focus()}>
+                    <Image className="carousel-image" fluid src={path + clickedPic.image_source}/>
                 </a>
                 <div className="ms-4 text-center carousel-btn carousel-btn-left" onClick={() => handleDecrease()}><div style={{scale: "2", pointerEvents: "none"}}>{"←"}</div></div>
                 <div className="me-4 text-center carousel-btn carousel-btn-right" onClick={() => handleIncrease()}><div style={{scale: "2", pointerEvents: "none"}}>{"→"}</div></div>
@@ -85,4 +85,4 @@ const ImageViewerComponent = (props) => {
     )
 }
 
-export { ImageViewerComponent }
+export { ImageViewer }

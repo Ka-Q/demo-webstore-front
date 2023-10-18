@@ -1,0 +1,12 @@
+.large-screen-login .dropdown-toggle {
+    width: 5.5em;
+}
+
+.login-form-link {
+    text-decoration: revert;
+    color: revert;
+}
+
+.login-form-link { 
+    min-width: 100%;
+}
