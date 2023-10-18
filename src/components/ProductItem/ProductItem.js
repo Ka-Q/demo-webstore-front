@@ -14,7 +14,7 @@ const ProductItem = (props) => {
         let image_src = "missing_image.png";
         if (product.images && product.images[0]) image_src = product.images[0].image_source; 
         return (
-            <Card className=" my-1" style={{backgroundColor: "rgb(20,20,20)", border: "2px solid rgb(40,40,40)", color: "white"}}>
+            <Card className="my-1" style={{backgroundColor: "rgb(20,20,20)", border: "2px solid rgb(40,40,40)", color: "white", height: "inherit"}}>
                 <Row>
                     <Col sm={6} className="text-center">
                         <ProductImageComponent src={`${API_PATH}/api/imagefile?filename=${image_src}`} images={product.images}/>

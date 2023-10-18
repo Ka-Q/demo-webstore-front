@@ -1,6 +1,6 @@
 import './Login.css'
 import { DropdownButton, Dropdown} from 'react-bootstrap';
-import LoginForm from './LoginForm';
+import LoginForm from '../LoginForm/LoginForm';
 
 const LoginComponent = (props) => {
     

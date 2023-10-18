@@ -1,7 +1,8 @@
+import './loadingComponent.css'
 
 const LoadingComponent = () => {
     return (
-        <div style={{paddingBottom: "100%", paddingTop: "20em", textAlign: "center"}}>
+        <div className="loading-component">
             <h4>Loading...</h4>
         </div>
     )

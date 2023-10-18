@@ -1,0 +1,13 @@
+.footer {
+    background: rgb(20,20,20);
+}
+
+#footer-section {
+    justify-content: space-evenly; 
+    display: flex; 
+    border-bottom: 1px solid rgb(60,60,60);
+}
+
+.footer-list {
+    list-style: none;
+}

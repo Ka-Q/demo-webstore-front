@@ -1,4 +1,4 @@
-import './Login.css'
+import './loginForm.css'
 import { useState } from 'react';
 import { Form, Button} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -43,8 +43,9 @@ const LoginForm = () => {
                 aria-label="Search"
                 onChange={(e) => setPassword(e.target.value)}
             />
-            <Button onClick={handleLogIn} style={{ minWidth: "100%" }} variant='success' className='my-1'>Log in</Button>
-            <span>No account? Register <Link to={'/register'} className='link'>here!</Link></span>
+            <Button onClick={handleLogIn} variant='success' className='my-1 me-2 login-form-button'>Log in</Button> 
+            <br/>
+            <span>No account? Register <Link to={'/register'} className='login-form-link'>here!</Link></span>
             <p>{error}</p>
         </Form>
     )

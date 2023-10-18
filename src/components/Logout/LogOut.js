@@ -1,3 +1,4 @@
+import './logOut.css';
 
 import { Button} from 'react-bootstrap';
 const API_PATH = 'http://localhost:5000';
@@ -17,7 +18,7 @@ const LogOutComponent = (props) => {
 
     return (
         <div className={props.className}>
-            <Button variant='outline-success' onClick={handleLogOut} className='text-nowrap' style={{ width: "5.5em" }}>Log Out</Button>
+            <Button variant='outline-success' onClick={handleLogOut} className='text-nowrap log-out-button'>Log Out</Button>
         </div>
     )
 }

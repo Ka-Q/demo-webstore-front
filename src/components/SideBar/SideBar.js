@@ -1,16 +1,27 @@
 import { Link } from 'react-router-dom';
 import './SideBar.css'
-import LoginForm from '../Login/LoginForm';
+import LoginForm from '../LoginForm/LoginForm';
 import { Image } from 'react-bootstrap';
+import { useState, useEffect } from 'react';
 const API_PATH = 'http://localhost:5000';
 
 const SideBar = (props) => {
 
-    const sidebar = document.querySelector('#sidebar');
-    const overlay = document.querySelector('#overlay');
-    const sideToggle = document.querySelector('#side-toggle');
+    const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+
+    useEffect(() => {
+        if (isSidebarVisible) {
+            showSidebar();
+        } else {
+            hideSidebar();
+        }
+    }, [isSidebarVisible]);
 
     const showSidebar = () => {
+        const sidebar = document.querySelector('#sidebar');
+        const overlay = document.querySelector('#overlay');
+        const sideToggle = document.querySelector('#side-toggle');
+
         sidebar.style.transform =  `translate(0%)`;
         sidebar.style.filter = 'drop-shadow(0 0.5em 0.5em black)';
         overlay.style.display = 'block';
@@ -19,6 +30,10 @@ const SideBar = (props) => {
     }
 
     const hideSidebar = () => {
+        const sidebar = document.querySelector('#sidebar');
+        const overlay = document.querySelector('#overlay');
+        const sideToggle = document.querySelector('#side-toggle');
+
         sidebar.style.transform = `translate(100%)`;
         sidebar.style.filter = 'none';
         overlay.style.display = 'none';
@@ -40,9 +55,9 @@ const SideBar = (props) => {
     
     const toggle = props.toggle
     if (toggle) {
-        showSidebar();
         toggle.onclick = (e) => {
-            showSidebar()
+            setIsSidebarVisible(true);
+            showSidebar();
         }
     }
 
@@ -78,8 +93,8 @@ const SideBar = (props) => {
                     {props.user && props.user.user_email? 
                     <>
                         <Link className="list-item hoverable" onClick={hideSidebar}>
-                            <div style={{position: "absolute", top: "50%", transform: "translate(50%,-50%)"}}>
-                                <Image src={`${API_PATH}/api/imagefile?filename=${props.user.image_src}`} height="40px" style={{borderRadius: "100px"}}/>
+                            <div className='user-image-container'>
+                                <Image className='user-image' src={`${API_PATH}/api/imagefile?filename=${props.user.image_src}`}/>
                             </div>
                             Account
                         </Link>
