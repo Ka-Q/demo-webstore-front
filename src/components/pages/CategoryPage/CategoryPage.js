@@ -26,7 +26,7 @@ const CategoryPage = () => {
         const fetchTopProducts = async () => {
             const f = await fetch(`${API_PATH}/api/product_expanded_v2?&order=avg_review_rating desc&limit=10&category_name[]=${category.category_name}`);
             const data = await f.json(); 
-            if (f.status == 200) setTopProducts(data.data);
+            if (f.status == 200 && !data.error) setTopProducts(data.data);
         }
         if (category){
             fetchTopProducts();
@@ -55,7 +55,7 @@ const CategoryPage = () => {
             </div>
             <hr className="my-5"/>
             <h5 className="mt-3">Top rated products in {category.category_name}: </h5>
-            {topProducts.length > 0?<ProductShowcase products={topProducts} id={`top-${category.category_id}`}/> : <>no products in category</>}
+            {topProducts.length > 0 && topProducts[0]?<ProductShowcase products={topProducts} id={`top-${category.category_id}`}/> : <>no products in category</>}
             <div className="text-center">
                 <Link 
                     to={`/search?category=${category.category_name}`}

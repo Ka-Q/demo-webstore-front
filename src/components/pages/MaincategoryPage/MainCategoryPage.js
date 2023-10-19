@@ -71,7 +71,7 @@ const MainCategoryPage = () => {
             </Row>
             <hr className="my-5"/>
             <h5 className="mt-3">Top rated products in {maincategory.maincategory_name}: </h5>
-            <ProductShowcase products={topProducts} id={`top-${maincategory.maincategory_id}`}/>
+            {topProducts.length > 0 && topProducts[0]? <ProductShowcase products={topProducts} id={`top-${maincategory.maincategory_id}`}/>:<>no products in category</>}
             <div className="text-center">
                 <Link 
                     to={`/search?${maincategory.categories.map((n) => {return (`category=${n.category_name}`)}).join('&')}`}
