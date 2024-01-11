@@ -1,7 +1,7 @@
 import "./ProductItem.css"
 import { Card, Col, Container, Row, Image} from "react-bootstrap";
 
-const API_PATH = 'http://localhost:5000';
+const API_PATH = process.env.REACT_APP_DWS_API_URL;
 
 const ProductItem = (props) => {
     let product = props.product;

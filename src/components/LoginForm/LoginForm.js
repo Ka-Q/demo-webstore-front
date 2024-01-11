@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Form, Button} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-const API_PATH = 'http://localhost:5000';
+const API_PATH = process.env.REACT_APP_DWS_API_URL;
 
 const LoginForm = () => {
 

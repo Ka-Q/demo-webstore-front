@@ -6,7 +6,7 @@ import ProductShowcase from '../../ProductShowcase/ProductShowcase';
 import CategoryCard from '../../CategoryCard/CategoryCard';
 import PathNavigator from '../../PathNavigator/PathNavigator';
 
-const API_PATH = 'http://localhost:5000';
+const API_PATH = process.env.REACT_APP_DWS_API_URL;
 
 const AllCategoriesPage = () => {
 

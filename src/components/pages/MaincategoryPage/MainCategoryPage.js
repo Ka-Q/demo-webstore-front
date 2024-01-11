@@ -5,7 +5,7 @@ import ProductShowcase from "../../ProductShowcase/ProductShowcase";
 import { Link, useNavigate } from "react-router-dom";
 import PathNavigator from "../../PathNavigator/PathNavigator";
 
-const API_PATH = 'http://localhost:5000';
+const API_PATH = process.env.REACT_APP_DWS_API_URL;
 
 
 const MainCategoryPage = () => {

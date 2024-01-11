@@ -4,7 +4,7 @@ import { Form } from 'react-bootstrap';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { hideResults, showResults } from '../searchBarControl';
 
-const API_PATH = 'http://localhost:5000';
+const API_PATH = process.env.REACT_APP_DWS_API_URL;
 
 const Searchbar = () => {
     const [query, setQuery] = useState("");
