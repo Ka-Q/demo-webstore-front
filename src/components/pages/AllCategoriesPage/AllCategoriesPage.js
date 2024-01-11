@@ -23,7 +23,7 @@ const AllCategoriesPage = () => {
 
     useEffect(() => {
         const fetchCategories = async () => {
-            const f = await fetch(`${API_PATH}/api/maincategory_expanded?category_name=%${categoryName}%&order=maincategory_name`);
+            const f = await fetch(`${API_PATH}/api/maincategory_expanded?category_name=%25${categoryName}%25&order=maincategory_name`);
             const data = await f.json();
             if (f.status == 200) setMaincategories(data.data);
         }

@@ -21,7 +21,7 @@ const Searchbar = () => {
   
     useEffect(() => {
       const fetchProduct = async () => {
-        const f = await fetch(`${API_PATH}/api/product?product_name=%${query.trim()}%&limit=5`);
+        const f = await fetch(`${API_PATH}/api/product?product_name=%25${query.trim()}%25&limit=5`);
         if (f.status == 200) {
           const data = await f.json();
           setProducts(data.data);
