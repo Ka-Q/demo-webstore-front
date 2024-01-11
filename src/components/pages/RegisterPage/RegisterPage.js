@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Form, Button, Row, Col} from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
-const API_PATH = 'http://localhost:5000';
+const API_PATH = process.env.REACT_APP_DWS_API_URL;
 
 const RegisterPage = (props) => {
 

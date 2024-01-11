@@ -5,7 +5,7 @@ import MultiRangeSlider from "../../MultiRangeSlider/MultiRangeSlider"
 
 import "./productFilter.css";
 
-const API_PATH = 'http://localhost:5000';
+const API_PATH = process.env.REACT_APP_DWS_API_URL;
 
 const ProductFilter = ({searchParams, setSearchParams, maincategoryFilter}) => {
     const [productName, setProductName] = useState("");

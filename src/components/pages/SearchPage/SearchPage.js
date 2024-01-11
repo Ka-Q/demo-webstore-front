@@ -6,7 +6,7 @@ import ProductFilter from "./ProductFilter";
 import DropdownItem from "react-bootstrap/esm/DropdownItem";
 import ProductItem from "../../ProductItem/ProductItem";
 
-const API_PATH = 'http://localhost:5000';
+const API_PATH = process.env.REACT_APP_DWS_API_URL;
 
 const SearchPage = ({maincategoryFilter}) => {
 

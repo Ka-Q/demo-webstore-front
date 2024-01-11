@@ -15,7 +15,7 @@ import { customFetch, checkLogin, resetSessionTimeout } from './sessionTimer';
 import AllCategoriesPage from './components/pages/AllCategoriesPage/AllCategoriesPage';
 import Footer from './components/Footer/Footer';
 
-const API_PATH = 'http://localhost:5000';
+const API_PATH = process.env.REACT_APP_DWS_API_URL;
 
 function App() {
   const [user, setUser] = useState(null);

@@ -4,7 +4,7 @@ import { ImageViewer } from "../../ImageViewer/ImageViewer";
 import { Card, Col, Container, Image, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-const API_PATH = 'http://localhost:5000';
+const API_PATH = process.env.REACT_APP_DWS_API_URL;
 
 const ProductPage = () => {
 
