@@ -120,14 +120,14 @@ const SearchPage = ({maincategoryFilter}) => {
     
     const fetchCategory = async () => {
         console.log("Fetching categories...");
-        const f = await fetch(`${API_PATH}/api/category?category_name=%${searchParams.get('query')}%&order=category_name`);
+        const f = await fetch(`${API_PATH}/api/category?category_name=%25${searchParams.get('query')}%25&order=category_name`);
         const data = await f.json();
         setCategories(data.data);
     }
 
     const makeQuery = () => {
         let query = "";
-        if (searchParams.get("query")) query += `product_name=%${searchParams.get('query') || ""}%`;
+        if (searchParams.get("query")) query += `product_name=%25${searchParams.get('query') || ""}%25`;
         if (searchParams.getAll("category").length > 0) query += `&category_name[]=${searchParams.getAll('category').join(',')}`;
         if (searchParams.get("min_price")) query += `&min_price=${searchParams.get('min_price') * 100}`;
         if (searchParams.get("max_price")) query += `&max_price=${searchParams.get('max_price') * 100}`;
