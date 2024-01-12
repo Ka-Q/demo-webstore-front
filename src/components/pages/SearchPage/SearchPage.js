@@ -20,7 +20,7 @@ const SearchPage = ({maincategoryFilter}) => {
 
     const [searchParams, setSearchParams] = useSearchParams();
     const [products, setProducts] = useState([]);
-    const [categories, setCategories] = useState([]);
+    const [maincategories, setMaincategories] = useState([]);
     
     const loadMoreRef = useRef(null);
     const limit = 5;
@@ -120,9 +120,32 @@ const SearchPage = ({maincategoryFilter}) => {
     
     const fetchCategory = async () => {
         console.log("Fetching categories...");
-        const f = await fetch(`${API_PATH}/api/category?category_name=%25${searchParams.get('query')}%25&order=category_name`);
+        const f = await fetch(`${API_PATH}/api/maincategory_expanded?category_name=%25${searchParams.get('query')}%25&order=category_name`);
         const data = await f.json();
-        setCategories(data.data);
+
+        let sorted = data.data.sort((a, b) => (a.maincategory_name > b.maincategory_name) ? 1 : -1)
+
+        if (sorted.length < 1 || sorted[0] == null) return;
+
+        let previousMaincategoryName = sorted[0].maincategory_name;
+        const combinedList = [];
+        let combined = sorted[0];
+
+        for (let i in sorted) {
+            if (i == 0) continue;
+            let maincategory = sorted[i];
+            if (previousMaincategoryName != maincategory.maincategory_name) {
+                previousMaincategoryName = maincategory.maincategory_name;
+                combinedList.push(combined);
+                combined = maincategory;
+            }
+            else {
+                combined.categories.push(maincategory.categories[0]);
+            }
+        }
+
+        combinedList.push(combined);
+        setMaincategories(combinedList);
     }
 
     const makeQuery = () => {
@@ -146,7 +169,7 @@ const SearchPage = ({maincategoryFilter}) => {
                 {!maincategoryFilter?
                     <Row>
                         <div className="mt-3">
-                            <CategoryListComponent categories={categories}/>
+                            <CategoryListComponent maincategories={maincategories}/>
                         </div>
                     </Row>
                 : <></>}
@@ -249,9 +272,7 @@ const ProductListComponent = (props) => {
     )
 }
 
-const CategoryListComponent = (props) => {
-
-    const categories = props.categories;
+const CategoryListComponent = ({maincategories}) => {
 
     useEffect(() => {
         let container = document.querySelector('#category-list-container');
@@ -264,11 +285,13 @@ const CategoryListComponent = (props) => {
                 else container.scrollTo({ left: container.scrollLeft - 25, behavior: 'instant' });
             });
         }
-    }, [categories]);
+    }, [maincategories]);
+
+    console.log(maincategories);
 
     return (
         <>
-            {categories.length < 1 || !categories[0] || !categories? 
+            {maincategories.length < 1 || !maincategories[0] || !maincategories || typeof maincategories == undefined? 
             <></>
             :
             <>
@@ -278,9 +301,9 @@ const CategoryListComponent = (props) => {
                 <div className="right-fade"/>
                 <div id='category-list-container' className="category-fade mt-2 pb-2" style={{position: "relative", display: "flex", overflow: "auto"}}>
                     <div className="mx-3"/>
-                    {categories.map((n, index) => {
+                    {maincategories.map((n, index) => {
                         return (
-                            <CategoryItem category={n} key={"categoryitem" + n.category_id}/>
+                            <CategoryItem maincategory={n} key={n.maincategory_id + "categoryitem" + n.categories[0].category_id}/>
                         )
                     })}
                     <div className="mx-3"/>
@@ -293,12 +316,31 @@ const CategoryListComponent = (props) => {
     )
 }
 
-const CategoryItem = (props) => {
-    let category = props.category;
+const CategoryItem = ({maincategory}) => {
+
+    console.log(maincategory);
 
     return (
-        <div className="ms-1 flex-category-button" style={{border: "2px solid rgb(60,60,60)", borderRadius: ".5em", userSelect: "none"}}>
-            <Link to={`/categories/${category.category_name}`} className="px-3 pt-1" style={{display: "block", whiteSpace: "nowrap"}}><h5>{category.category_name}</h5></Link>
+        <div className="ms-1">
+            <div 
+                className="px-3 pt-1" 
+                style={{display: "flex", flexDirection: "row", whiteSpace: "nowrap"}}>
+                    <h5 className='me-1 p-1' style={{display: "block"}}>
+                        {maincategory.maincategory_name} {">"}
+                    </h5>
+                    <div style={{display: "flex", gap: "1rem"}}>
+                        {maincategory.categories.map((n) => {
+                            return(
+                                <Link className='p-1 flex-category-button'
+                                    to={`/categories/${maincategory.maincategory_name}/${n.category_name}`} 
+                                    key={`linkto${maincategory.maincategory_name}/${n.category_name}`}
+                                    style={{border: "2px solid rgb(60,60,60)", borderRadius: ".5em", userSelect: "none"}}>
+                                        {n.category_name}
+                                </Link>
+                            )
+                        })}
+                    </div>
+            </div>
         </div>
     )
 }
