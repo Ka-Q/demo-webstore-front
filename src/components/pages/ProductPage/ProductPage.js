@@ -202,6 +202,7 @@ const EventInfo = ({event}) => {
 
 const ReviewCard = ({review}) => {
 
+    // TODO actual users
     const [user, setUser] = useState({
         user_id: -1,
         user_username: "Anonymous",
