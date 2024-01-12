@@ -47,7 +47,7 @@ const ProductPage = () => {
                         <Card.Body>
                             {product.reviews.map((n) => {
                                 return (
-                                    <ReviewCard review={n} />
+                                    <ReviewCard review={n} key={`review${n.review_id}`}/>
                                 )
                             })}
                         </Card.Body>
