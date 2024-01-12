@@ -43,12 +43,9 @@ const SearchPage = ({maincategoryFilter}) => {
     }, [maincategoryFilter])
 
     useEffect(() => {
-
-        console.log("params: " + searchParams.toString());
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
-                    console.log(endOfResults + ' '+ products.length, " " + entry.isIntersecting);
                     if (!endOfResults && products.length != 0) {
                         fetchProductInfinite();
                     }
@@ -85,7 +82,7 @@ const SearchPage = ({maincategoryFilter}) => {
     const fetchProduct = async () => {
         setLoading(true);
         let query = makeQuery();
-        console.log("Fetching products... " + query);
+        console.log("Fetching products...");
         const f = await fetch(`${API_PATH}/api/product_expanded_v2?${query}`);
         const data = await f.json();
         setLoading(false);
@@ -280,14 +277,11 @@ const CategoryListComponent = ({maincategories}) => {
         if (container) {
             container.addEventListener("wheel", function (e) {
                 e.preventDefault();
-                console.log("scroll");
                 if (e.deltaY > 0) container.scrollTo({ left: container.scrollLeft + 25, behavior: 'instant' });
                 else container.scrollTo({ left: container.scrollLeft - 25, behavior: 'instant' });
             });
         }
     }, [maincategories]);
-
-    console.log(maincategories);
 
     return (
         <>
@@ -317,9 +311,6 @@ const CategoryListComponent = ({maincategories}) => {
 }
 
 const CategoryItem = ({maincategory}) => {
-
-    console.log(maincategory);
-
     return (
         <div className="ms-1">
             <div 
