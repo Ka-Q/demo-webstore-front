@@ -2,6 +2,7 @@
 
 ![A preview image of the search results](https://github.com/Ka-Q/demo-webstore-front/blob/main/docs/DWS_wip.png?raw=true)
 ![A preview image of the search results](https://github.com/Ka-Q/demo-webstore-front/blob/main/docs/search_found_category.png?raw=true)
+![A preview image of the search results](https://github.com/Ka-Q/demo-webstore-front/blob/main/docs/product_page.png?raw=true)
 ![A preview image of the category page](https://github.com/Ka-Q/demo-webstore-front/blob/main/docs/main_category_page.png?raw=true)
 
 
