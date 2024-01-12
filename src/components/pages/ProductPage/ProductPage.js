@@ -121,12 +121,37 @@ const ReviewStarsComponent = ({product}) => {
 
 const ProductPriceComponent = (props) => {
 
-    let product = props.product;
-    let price = product.price / 100;
+    const [time, setTime] = useState({});
+    const [eventEnded, setEventEnded] = useState(false);
+
+    const product = props.product;
+    const price = product.price / 100;
+
+    useEffect(() => {
+        let eventEndDate = new Date(product.event.event_end_date)
+
+        const intervalId = setInterval(() => {
+            const diff = eventEndDate - Date.now();
+            if (diff <= 0) {
+                clearInterval(intervalId);
+                setTime({});
+                setEventEnded(true);
+            } else {
+                const hours = Math.floor(diff / (1000 * 60 * 60));
+                const minutes = Math.floor((diff / (1000 * 60)) % 60);
+                setTime({ hours, minutes });
+            }
+        }, 1000); // update every second
+
+        // cleanup function to clear the interval when the component unmounts
+        return () => clearInterval(intervalId);
+    }, []); // empty dependency array means this effect runs once on mount and cleanup on unmount
+
+
     return (
         <>
         <Row className="mx-auto">
-        {!product.discount? 
+        {!product.discount || eventEnded? 
             <Col md={3}><span className="me-2" style={{fontSize: "1.5em", fontWeight: "bold", color: "red", whiteSpace: "nowrap"}}>{price}€</span></Col>
             :
             <Col md={5}>
@@ -134,7 +159,7 @@ const ProductPriceComponent = (props) => {
                 <span className="me-2" style={{fontSize: "1em", fontWeight: "bold", textDecoration: "line-through", color: "darkred"}}> {price}€</span> 
             </span>
             {product.event? 
-                <EventCountdown event={product.event}/>
+                <EventCountdown time={time}/>
             : 
                 <></>}
             </Col>
@@ -147,35 +172,11 @@ const ProductPriceComponent = (props) => {
     )
 }
 
-const EventCountdown = ({event}) => {
-    const [time, setTime] = useState({});
-
-    useEffect(() => {
-        let eventEndDate = event.event_end_date ? new Date(event.event_end_date) : new Date(Date.now() + 86400000);
-
-        const intervalId = setInterval(() => {
-            const diff = eventEndDate - Date.now();
-            if (diff <= 0) {
-                clearInterval(intervalId);
-                setTime({});
-            } else {
-                const hours = Math.floor(diff / (1000 * 60 * 60));
-                const minutes = Math.floor((diff / (1000 * 60)) % 60);
-                setTime({ hours, minutes });
-            }
-        }, 1000); // update every second
-
-        // cleanup function to clear the interval when the component unmounts
-        return () => clearInterval(intervalId);
-    }, []); // empty dependency array means this effect runs once on mount and cleanup on unmount
-
+const EventCountdown = ({time}) => {
     return (
-        time.hours !== undefined ? 
         <span className="px-1" style={{border: "1px solid orange", borderRadius: ".2em", color: "orange", textDecoration: "none", whiteSpace: "nowrap"}}>
             🕑 {time.hours}h {time.minutes}min
         </span>
-        : 
-        <></>
     );
 }
 
