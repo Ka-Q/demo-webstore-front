@@ -17,6 +17,7 @@
 - A simple product page / unique product
 - Pages for Categories and Sub Categories, that include flexible product showcases ("top rated products in this category")
 - User authentication and a warning about an expiring login session
+- Discounts shown on products
 
 ## Planned features
 - A local shopping cart, stored in db for logged in users
@@ -29,6 +30,7 @@
 ## Known issues
 - If fetching of data fails, errors are not always properly handled
 - The links to categories on the search results are not functional
+- The discount timer is currently not tied to the actual sales event ending date (Always starts as 24h on reload)
 
 ## Running locally
 
