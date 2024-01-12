@@ -30,7 +30,6 @@
 ## Known issues
 - If fetching of data fails, errors are not always properly handled
 - The links to categories on the search results are not functional
-- The discount timer is currently not tied to the actual sales event ending date (Always starts as 24h on reload)
 
 ## Running locally
 
