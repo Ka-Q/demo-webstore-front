@@ -119,15 +119,17 @@ const ReviewStarsComponent = ({product}) => {
     )
 }
 
-const ProductPriceComponent = (props) => {
+const ProductPriceComponent = ({product}) => {
 
     const [time, setTime] = useState({});
     const [eventEnded, setEventEnded] = useState(false);
 
-    const product = props.product;
     const price = product.price / 100;
 
     useEffect(() => {
+
+        if (!product.event) return;
+
         let eventEndDate = new Date(product.event.event_end_date)
 
         const intervalId = setInterval(() => {
