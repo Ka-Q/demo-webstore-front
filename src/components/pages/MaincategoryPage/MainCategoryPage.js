@@ -65,7 +65,13 @@ const MainCategoryPage = () => {
             <Row>
                 {maincategory.categories.map((n) => {
                     return (
-                        <Col sm={6} md={4} lg={3} key={`CategoryCardTop-${n.category_id}`}><div className='pt-4'><Link to={`./${n.category_name}`}><CategoryCard category={n}/></Link></div></Col>
+                        <Col sm={6} md={4} lg={3} key={`CategoryCardTop-${n.category_id}${maincategory.maincategory_name}`}>
+                            <div className='pt-4'>
+                                <Link to={`./${n.category_name}`}>
+                                    <CategoryCard category={n}/>
+                                </Link>
+                            </div>
+                        </Col>
                     )
                 })}
             </Row>
@@ -84,7 +90,13 @@ const MainCategoryPage = () => {
             <Row>
                 {maincategory.categories.map((n) => {
                     return (
-                        <Col sm={6} md={4} lg={3} key={`CategoryCardBottom-${n.category_id}`}><div className='pt-4'><Link to={`./${n.category_name}`}><CategoryCard category={n}/></Link></div></Col>
+                        <Col sm={6} md={4} lg={3} key={`CategoryCardBottom-${n.category_id}${maincategory.maincategory_name}`}>
+                            <div className='pt-4'>
+                                <Link to={`./${n.category_name}`}>
+                                    <CategoryCard category={n}/>
+                                </Link>
+                            </div>
+                        </Col>
                     )
                 })}
             </Row>

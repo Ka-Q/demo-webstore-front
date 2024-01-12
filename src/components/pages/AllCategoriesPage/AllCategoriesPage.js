@@ -60,7 +60,7 @@ const AllCategoriesPage = () => {
                 <Col>
                     {maincategories.map((n, index) => {
                         return (
-                            <MainCategoryCard maincategory={n}/>
+                            <MainCategoryCard maincategory={n} key={`maincategory-card-${n.maincategory_id}`}/>
                         )
                     })}
                 </Col>
@@ -96,7 +96,13 @@ const MainCategoryCard = ({maincategory}) => {
             <Row>
                 {maincategory.categories.map((n, index) => {
                     return (
-                        <Col sm={6} md={4} lg={3}><div className='pt-4'><Link to={`./${maincategory.maincategory_name}/${n.category_name}`}><CategoryCard category={n}/></Link></div></Col>
+                        <Col sm={6} md={4} lg={3} key={`${n.category_id}maincat${maincategory.maincategory_id}`}>
+                            <div className='pt-4'>
+                                <Link to={`./${maincategory.maincategory_name}/${n.category_name}`}>
+                                    <CategoryCard category={n}/>
+                                </Link>
+                            </div>
+                        </Col>
                     )
                 })}
             </Row>
