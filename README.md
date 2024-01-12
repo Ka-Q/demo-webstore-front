@@ -1,5 +1,7 @@
 # Demo Webstore front (WIP)
 
+![A preview image of the search results](https://github.com/Ka-Q/demo-webstore-front/blob/main/docs/DWS_wip.png?raw=true)
+
 ## Current features
 
 - A responsive UI that scales for different screen sizes.
