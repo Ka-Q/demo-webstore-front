@@ -1,4 +1,28 @@
-# Demo Webstore front
+# Demo Webstore front (WIP)
+
+## Current features
+
+- A responsive UI that scales for different screen sizes.
+- A fuzzy search system for finding both products and catregories containing the searchterm in their name
+- Infinite scrolling of search items with automatic fetching from the API
+- A "smart" category filter, that understands some subcategories are included under multiple categories (for example, "earbuds" can be under "smart devices" and "audio")
+- Price filtering based on user's specified price range
+- A five star rating system displayed with stars
+- A simple product page / unique product
+- Pages for Categories and Sub Categories, that include flexible product showcases ("top rated products in this category")
+- User authentication and a warning about an expiring login session
+
+## Planned features
+- A local shopping cart, stored in db for logged in users
+- A fancier product page
+- More diverse product showcase reels
+- A frontpage that's not just a gif of a cat...
+- Error handling
+- An actual way for users to leave product reviews
+
+## Known issues
+- If fetching of data fails, errors are not always properly handled
+- The links to categories on the search results are not functional
 
 ## Running locally
 
