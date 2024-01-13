@@ -29,7 +29,6 @@
 
 ## Known issues
 - If fetching of data fails, errors are not always properly handled
-- The links to categories on the search results are not functional
 
 ## Running locally
 
