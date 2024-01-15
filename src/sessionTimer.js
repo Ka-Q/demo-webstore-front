@@ -5,7 +5,7 @@ let expirationTimeout;
 const sessionDuration = 25 * 60000; //25 * 1 min = 25 min
 const expirationDuration = 30 * 60000; //30 * 1 min = 30 min
 
-const renewSessionExpiration = async () => {
+export const renewSessionExpiration = async () => {
     let f = await fetch(`${API_PATH}/api/check_login`, {
         method: "POST",
         credentials: "include",
@@ -18,7 +18,7 @@ const renewSessionExpiration = async () => {
     }
 }
 
-const resetSessionTimeout = () => {
+export const resetSessionTimeout = () => {
     console.log("resetting SessionTimer...");
     clearTimeout(sessionTimeout);
     clearTimeout(expirationTimeout);
@@ -33,7 +33,7 @@ const resetSessionTimeout = () => {
     }, expirationDuration);
 }
 
-const checkLogin = async (e) => {
+export const checkLogin = async (e) => {
     let f = await fetch(`${API_PATH}/api/check_login`, {
         method: "POST",
         credentials: "include",
@@ -48,10 +48,8 @@ const checkLogin = async (e) => {
     }
 }
 
-const customFetch = async (url, options) => {
+export const customFetch = async (url, options) => {
     const f = await fetch(url, options);
     checkLogin();
     return f;
 }
-
-module.exports = {renewSessionExpiration, resetSessionTimeout, customFetch, checkLogin};
