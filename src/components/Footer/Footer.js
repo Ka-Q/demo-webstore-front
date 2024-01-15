@@ -13,25 +13,25 @@ const Footer = () => {
                     <Col sm={3} className='pt-3' id="footer-section" >
                         <ul className="footer-list">
                             <li>
-                                <Link><h3>Sitemap</h3></Link>
+                                <h3>Sitemap</h3>
                             </li>
                             <li>
-                                <Link>Front Page</Link>
+                                <Link to="/">Front Page</Link>
                             </li>
                             <li>
-                                <Link>Categories</Link>
+                                <Link to="/categories">Categories</Link>
                             </li>
                             <li>
-                                <Link>Search</Link>
+                                <Link to="/search">Search</Link>
                             </li>
                             <li>
-                                <Link>Log in</Link>
+                                <Link to="/login">Log in</Link>
                             </li>
                             <li>
-                                <Link>Register</Link>
+                                <Link to="/register">Register</Link>
                             </li>
                             <li>
-                                <Link>User account</Link>
+                                <Link to="/profile">User account</Link>
                             </li>
                         </ul>
                     </Col>
