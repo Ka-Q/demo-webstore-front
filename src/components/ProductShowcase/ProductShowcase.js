@@ -20,6 +20,10 @@ const hasHorizontalScrollBar = (container) => {
 
 const ProductShowcase = ({products, id}) => {
 
+    if (!products || !id) {
+        return (<></>);
+    }
+
     const scrollList = (dir) => {
         let container = document.querySelector(`#horizontal-list-container-${id}`);
         if (!container) return;
